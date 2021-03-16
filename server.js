@@ -1,0 +1,45 @@
+const express = require('express');
+const PORT = process.env.PORT || 8080;
+const app = express();
+const authRoutes = require('./routes/auth-routes');
+const profileRoutes = require('./routes/profile-routes');
+const passportSetup = require('./config/passport-setup');
+const connection = require('./config/connection');
+const cookieSession = require('cookie-session');
+const passport = require('passport')
+const dotenv = require('dotenv');
+dotenv.config()
+
+// Set Handlebars.
+const exphbs = require('express-handlebars');
+
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
+
+app.use(cookieSession({
+  // cookie lasts a day
+  maxAge: 24 * 60 * 60 * 1000,
+  keys: [process.env.cookieKey]
+}));
+
+// initialize passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// setup routes
+app.use('/auth', authRoutes)
+app.use('/profile', profileRoutes)
+
+
+// Import routes and give the server access to them.
+app.get('/', (req, res) => {
+  res.render('index')
+})
+
+app.get('/main', (req, res) => {
+  res.render('main')
+})
+
+// Start our server so that it can begin listening to client requests.
+app.listen(PORT, () =>
+  console.log(`Server listening on: http://localhost:${PORT}`))
