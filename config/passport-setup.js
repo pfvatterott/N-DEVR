@@ -27,7 +27,6 @@ passport.use(new StravaStrategy({
     clientSecret: process.env.clientSecret,
     callbackURL: "/auth/strava/redirect"
     }, (accessToken, refreshToken, profile, done) => {
-
         // check if user exists
         Users.findAndCountAll({
             where: {
