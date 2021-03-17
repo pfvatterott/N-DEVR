@@ -20,4 +20,8 @@ router.get('/', authCheck, (req, res) => {
     res.render('profile', hbsObject);
 })
 
+router.get('/activity', (req, res) => {
+    res.render('activity')
+})
+
 module.exports = router;

@@ -10,6 +10,8 @@ const passport = require('passport')
 const dotenv = require('dotenv');
 dotenv.config()
 
+app.use(express.static('public'));
+
 // Set Handlebars.
 const exphbs = require('express-handlebars');
 
