@@ -17,31 +17,49 @@ document.addEventListener('DOMContentLoaded', (event) => {
             accessToken: 'pk.eyJ1IjoicGZ2YXR0ZXJvdHQiLCJhIjoiY2tsODZxOW5uMXo3ZTJ4bW1iN3YwbWpsaCJ9.LGIyO-vQru6dyenUYpZE3A'
         }).addTo(mymap);
 
-        function getSegments(res) {
-            console.log(res)
-            let activityType = "biking"; 
-            const segmentsLink = `https://www.strava.com/segments/explore/search?bounds=52.0457%2C5.2563%2C52.1722%2C5.5845&zoom=12&min_cat=0&max_cat=5&activity_type=cycling&access_token=${res.access_token}`
-            fetch(segmentsLink).then((res) => console.log(res.json()))
-        }
 
-        const auth_link = "https://www.strava.com/oauth/token"
-        function getAuthorizeToken() {
-            fetch(auth_link, {
-                method: 'post',
-
+        const getSegments = (southWestLat, southWestLng, northEastLat, northEastLng) =>
+            fetch((`/profile/activity/${southWestLat},${southWestLng},${northEastLat},${northEastLng},`), {
+                method: 'GET',
                 headers: {
-                    'Accept': 'application/json, text/plain, */*',
-                    'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    client_id: '61557',
-                    client_secret: '499fb5092dba14ad70ed8ac75c372d30311438cd',
-                    refresh_token: '36cd7ff81b9ef362148f5b3622c5037c91bcfdc0',
-                    grant_type: 'refresh-token'
+            }).then((response) => {
+                let bounds = mymap.getBounds()
+                response.json().then((data) => {
+                    console.log(data)
+                    for (let i = 0; i < data.segments.length; i++) {
+                        var coordinates = L.Polyline.fromEncoded(data.segments[i].points).getLatLngs()
+                        L.polyline(
+                            coordinates,
+                            {
+                                color: 'green',
+                                weight: 5,
+                                opacity: .9,
+                                lineJoin: 'round'
+                            }
+                        ).addTo(mymap) 
+                        var marker = L.marker([data.segments[i].start_latlng[0], data.segments[i].start_latlng[1]], {
+                            title: data.segments[i].name
+                        }).bindPopup(data.segments[i].name).addTo(mymap)
+                    }
                 })
-            }).then(res => res.json()).then(res => getSegments(res))
-        }
-        getAuthorizeToken();
-    }
+            })
+            
+        mymap.on('load', () => {
+            const southWestLat = mymap.getBounds()._southWest.lat;
+            const southWestLng = mymap.getBounds()._southWest.lng;
+            const northEastLat = mymap.getBounds()._northEast.lat;
+            const northEastLng = mymap.getBounds()._northEast.lng;
+            getSegments(southWestLat, southWestLng, northEastLat, northEastLng);
+        })
 
+        mymap.on('click', () => {
+            const southWestLat = mymap.getBounds()._southWest.lat;
+            const southWestLng = mymap.getBounds()._southWest.lng;
+            const northEastLat = mymap.getBounds()._northEast.lat;
+            const northEastLng = mymap.getBounds()._northEast.lng;
+            getSegments(southWestLat, southWestLng, northEastLat, northEastLng);
+        })
+    }
 });
