@@ -9,6 +9,7 @@ CREATE TABLE users (
     user_first VARCHAR(255),
     user_last VARCHAR(255),
     user_photo VARCHAR(255),
+    access_token VARCHAR(255),
     
     PRIMARY KEY (id)
 );

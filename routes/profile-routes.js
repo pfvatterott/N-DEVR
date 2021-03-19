@@ -1,7 +1,9 @@
 const router = require('express').Router();
 const stravaApi = require('strava-v3');
-// This is the Access Token that expires every now and then. Grab it from oAuth?
-const strava = new stravaApi.client('623a9a58d2f4c79c5ac3422ab85b46bd4d5d3889');
+const stravaPassport = require('../config/passport-setup')
+const Users = require('../models/users'); 
+
+
 
 const authCheck = (req, res, next) => {
     // checks if user is logged in
@@ -41,6 +43,9 @@ router.get('/activity/:coords', (req, res) => {
           res.json(data)
         }
     };
+
+    // Pulls access token from database to access strava segments API
+    const strava = new stravaApi.client(req.user[0]._previousDataValues.access_token)
 
     strava.segments.explore(bounds, callback)
 })

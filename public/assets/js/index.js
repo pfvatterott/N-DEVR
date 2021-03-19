@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', (event) => {
+    const activityList = document.getElementById("activityList");
+
     if (event) {
         console.info('DOM loaded');
     };
@@ -18,6 +20,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }).addTo(mymap);
 
 
+        let idList = [];
         const getSegments = (southWestLat, southWestLng, northEastLat, northEastLng) =>
             fetch((`/profile/activity/${southWestLat},${southWestLng},${northEastLat},${northEastLng},`), {
                 method: 'GET',
@@ -29,19 +32,53 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 response.json().then((data) => {
                     console.log(data)
                     for (let i = 0; i < data.segments.length; i++) {
-                        var coordinates = L.Polyline.fromEncoded(data.segments[i].points).getLatLngs()
-                        L.polyline(
-                            coordinates,
-                            {
-                                color: 'green',
-                                weight: 5,
-                                opacity: .9,
-                                lineJoin: 'round'
-                            }
-                        ).addTo(mymap) 
-                        var marker = L.marker([data.segments[i].start_latlng[0], data.segments[i].start_latlng[1]], {
-                            title: data.segments[i].name
-                        }).bindPopup(data.segments[i].name).addTo(mymap)
+                        if (!idList.includes(data.segments[i].id)) {
+                            idList.push(data.segments[i].id)
+                            var coordinates = L.Polyline.fromEncoded(data.segments[i].points).getLatLngs()
+                            L.polyline(
+                                coordinates,
+                                {
+                                    color: 'green',
+                                    weight: 5,
+                                    opacity: .9,
+                                    lineJoin: 'round',
+                                    metaDataName: data.segments[i].name,
+                                    metaDataDistance: data.segments[i].distance,
+                                    metaDataElevation: data.segments[i].elev_difference,
+                                    metaDataId: data.segments[i].id
+                                },
+                            ).on('click', (e) => {
+                                // Create List Item on click
+                                let li = document.createElement("li");
+                                let span = document.createElement("span");
+                                let p1 = document.createElement("p");
+                                let p2 = document.createElement("p");
+                                li.setAttribute('data-index', e.target.options.metaDataId);
+                                li.classList.add("collection-item");
+                                span.classList.add("title");
+                                span.textContent = e.target.options.metaDataName
+                                p1.textContent = "Distance: " + e.target.options.metaDataDistance + " feet";
+                                p2.textContent = "Elevation: " + e.target.options.metaDataElevation + " feet";
+                                li.appendChild(span);
+                                li.appendChild(p1);
+                                li.appendChild(p2);
+                                activityList.appendChild(li);
+                                // changes line color on click
+                                if (e.target.options.color === 'yellow') {
+                                    e.target.setStyle({
+                                        color:'green'
+                                    })
+                                }
+                                else {
+                                    e.target.setStyle({
+                                        color: 'yellow'
+                                    })
+                                }
+                            }).addTo(mymap)
+                            var marker = L.marker([data.segments[i].start_latlng[0], data.segments[i].start_latlng[1]], {
+                                title: `${data.segments[i].name}`,
+                            }).bindPopup('<b>' + data.segments[i].name + '</b> <br> Distance: ' + (Math.round(0.00062137 * data.segments[i].distance * 100) / 100) + ' miles <br> Elevation: ' + (Math.round(data.segments[i].elev_difference * 3.28084)) + " ft").addTo(mymap)
+                        }
                     }
                 })
             })
@@ -54,12 +91,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
             getSegments(southWestLat, southWestLng, northEastLat, northEastLng);
         })
 
-        mymap.on('click', () => {
+        mymap.on('dragend', () => {
             const southWestLat = mymap.getBounds()._southWest.lat;
             const southWestLng = mymap.getBounds()._southWest.lng;
             const northEastLat = mymap.getBounds()._northEast.lat;
             const northEastLng = mymap.getBounds()._northEast.lng;
             getSegments(southWestLat, southWestLng, northEastLat, northEastLng);
         })
+
     }
 });

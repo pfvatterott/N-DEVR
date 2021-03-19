@@ -27,7 +27,6 @@ passport.use(new StravaStrategy({
     clientSecret: process.env.clientSecret,
     callbackURL: "/auth/strava/redirect"
     }, (accessToken, refreshToken, profile, done) => {
-
         // check if user exists
         Users.findAndCountAll({
             where: {
@@ -36,7 +35,19 @@ passport.use(new StravaStrategy({
         }).then(data => {
             if (data.count > 0) {
                 console.log(`user is ${profile._json.username}, id#: ${profile.id}`)
-                done(null, data.rows[0]._previousDataValues)
+                Users.update({ access_token: accessToken }, {
+                    where: {
+                        user_strava_id: profile.id
+                    }
+                }).then(updatedData => {
+                    Users.findAndCountAll({
+                        where: {
+                            user_strava_id: profile.id
+                        }
+                    }).then(data => {
+                        done(null, data.rows[0]._previousDataValues)
+                    })
+                })
             }
             else {
                 const newUser = {
@@ -44,7 +55,8 @@ passport.use(new StravaStrategy({
                     user_strava_id: profile.id,
                     user_first: profile.name.givenName,
                     user_last: profile.name.familyName,
-                    user_photo: profile._json.profile
+                    user_photo: profile._json.profile,
+                    access_token: accessToken,
                 }
                 Users.create(newUser).then(data => {
                     done(null, newUser)
