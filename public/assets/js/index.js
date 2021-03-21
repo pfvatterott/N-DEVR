@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     const activityList = document.getElementById("activityList");
+    const totalDistanceEl = document.getElementById("totalDistance");
+    const totalElevationEl = document.getElementById("totalElevation")
+    let totalDistance = 0;
+    let totalElevation = 0;
 
     if (event) {
         console.info('DOM loaded');
@@ -38,7 +42,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             L.polyline(
                                 coordinates,
                                 {
-                                    color: 'green',
+                                    color: 'orange',
                                     weight: 5,
                                     opacity: .9,
                                     lineJoin: 'round',
@@ -47,7 +51,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     metaDataElevation: data.segments[i].elev_difference,
                                     metaDataId: data.segments[i].id
                                 },
-                            ).on('click', (e) => {
+                            ).on('mouseover', (e) => {
+                                initialColor = e.target.options.color;
+                                e.target.setStyle({
+                                    color: 'yellow'
+                                })
+                            }).on('mouseout', (e) => {
+                                e.target.setStyle({
+                                    color: initialColor
+                                })
+                            }).on('click', (e) => {
+                                totalDistance += (Math.round(e.target.options.metaDataDistance * 0.00062137 * 100) / 100);
+                                totalElevation += (Math.round(e.target.options.metaDataElevation * 3.28084));
+
+                                totalDistanceEl.textContent = "Total Distance: " + totalDistance + " miles";
+                                totalElevationEl.textContent = "Total Elevation: " + totalElevation + " feet";
+
+
                                 // Create List Item on click
                                 let li = document.createElement("li");
                                 let span = document.createElement("span");
@@ -57,23 +77,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 li.classList.add("collection-item");
                                 span.classList.add("title");
                                 span.textContent = e.target.options.metaDataName
-                                p1.textContent = "Distance: " + e.target.options.metaDataDistance + " feet";
-                                p2.textContent = "Elevation: " + e.target.options.metaDataElevation + " feet";
+                                p1.textContent = "Distance: " + (Math.round(e.target.options.metaDataDistance * 0.00062137 * 100) / 100) + " miles";
+                                p2.textContent = "Elevation: " + (Math.round(e.target.options.metaDataElevation * 3.28084)) + " feet";
                                 li.appendChild(span);
                                 li.appendChild(p1);
                                 li.appendChild(p2);
                                 activityList.appendChild(li);
                                 // changes line color on click
-                                if (e.target.options.color === 'yellow') {
+                                if (initialColor === 'green') {
                                     e.target.setStyle({
-                                        color:'green'
+                                        color:'orange'
                                     })
                                 }
                                 else {
                                     e.target.setStyle({
-                                        color: 'yellow'
+                                        color: 'green'
                                     })
                                 }
+                                initialColor = e.target.options.color
                             }).addTo(mymap)
                             var marker = L.marker([data.segments[i].start_latlng[0], data.segments[i].start_latlng[1]], {
                                 title: `${data.segments[i].name}`,
