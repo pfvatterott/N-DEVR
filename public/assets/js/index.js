@@ -61,28 +61,63 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     color: initialColor
                                 })
                             }).on('click', (e) => {
+                                // Deletes the "delete" icon before adding a new row
+                                const oldDeleteButton = document.getElementById("deleteButton");
+                                if (oldDeleteButton) {
+                                    oldDeleteButton.remove();
+                                }
+
                                 totalDistance += (Math.round(e.target.options.metaDataDistance * 0.00062137 * 100) / 100);
                                 totalElevation += (Math.round(e.target.options.metaDataElevation * 3.28084));
-
                                 totalDistanceEl.textContent = "Total Distance: " + totalDistance + " miles";
                                 totalElevationEl.textContent = "Total Elevation: " + totalElevation + " feet";
-
 
                                 // Create List Item on click
                                 let li = document.createElement("li");
                                 let span = document.createElement("span");
                                 let p1 = document.createElement("p");
                                 let p2 = document.createElement("p");
+                                let i = document.createElement("button");
+                                i.classList.add("fas", "fa-trash-alt", "right", "deleteButton");
+                                i.setAttribute("id", "deleteButton");
                                 li.setAttribute('data-index', e.target.options.metaDataId);
                                 li.classList.add("collection-item");
                                 span.classList.add("title");
                                 span.textContent = e.target.options.metaDataName
                                 p1.textContent = "Distance: " + (Math.round(e.target.options.metaDataDistance * 0.00062137 * 100) / 100) + " miles";
                                 p2.textContent = "Elevation: " + (Math.round(e.target.options.metaDataElevation * 3.28084)) + " feet";
+                                li.appendChild(i)
                                 li.appendChild(span);
                                 li.appendChild(p1);
                                 li.appendChild(p2);
                                 activityList.appendChild(li);
+
+                                const newDeleteButton = document.getElementById("deleteButton");
+                                if (newDeleteButton){
+                                    newDeleteButton.addEventListener("click", () => {
+                                        // Sets corresponding line back to orange
+                                        e.target.setStyle({
+                                            color: 'orange'
+                                        })
+                                        // removes the li element
+                                        li.remove();
+                                        // Adjusts total distance and elevation
+                                        totalDistance -= (Math.round(e.target.options.metaDataDistance * 0.00062137 * 100) / 100);
+                                        totalElevation -= (Math.round(e.target.options.metaDataElevation * 3.28084));
+                                        totalDistanceEl.textContent = "Total Distance: " + totalDistance + " miles";
+                                        totalElevationEl.textContent = "Total Elevation: " + totalElevation + " feet";
+
+                                        // selects the last element in the list
+                                        const lastListItem = activityList.lastElementChild;
+                                        if (lastListItem) {
+                                            let i = document.createElement("button")
+                                            i.classList.add("fas", "fa-trash-alt", "right", "deleteButton");
+                                            i.setAttribute("id", "deleteButton");
+                                            lastListItem.prepend(i)
+                                        }
+                                    })
+                                }
+
                                 // changes line color on click
                                 if (initialColor === 'green') {
                                     e.target.setStyle({
