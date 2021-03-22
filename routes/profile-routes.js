@@ -39,7 +39,6 @@ router.get('/activity/:coords', (req, res) => {
         if (error) {
           console.error(error);
         } else {
-            console.log(data)
           res.json(data)
         }
     };
@@ -64,7 +63,6 @@ router.get('/segment/:stream', (req, res) => {
         if (error) {
           console.error(error);
         } else {
-            console.log(data)
           res.json(data)
         }
     };

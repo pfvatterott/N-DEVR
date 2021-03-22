@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const totalElevationEl = document.getElementById("totalElevation")
     let totalDistance = 0;
     let totalElevation = 0;
+    let segmentGraphData = [];
 
     if (event) {
         console.info('DOM loaded');
@@ -61,6 +62,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     color: initialColor
                                 })
                             }).on('click', (e) => {
+
+                                // Gets segment stream of coordinates, elevation, distance
+                                fetch((`segment/${e.target.options.metaDataId}`), {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                }).then((segmentStream) => {
+                                    segmentStream.json().then((segmentData => {
+                                        console.log(segmentData)
+                                        createGraph(segmentData);
+                                    }))
+                                })
+
                                 // Deletes the "delete" icon before adding a new row
                                 const oldDeleteButton = document.getElementById("deleteButton");
                                 if (oldDeleteButton) {
@@ -154,6 +169,45 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const northEastLng = mymap.getBounds()._northEast.lng;
             getSegments(southWestLat, southWestLng, northEastLat, northEastLng);
         })
-
+        
+        let newGraphData = [];
+        const createGraph = (data) => {
+            if (newGraphData.length > 0) {
+                const lastSegmentEndDistance = newGraphData[newGraphData.length - 1].x
+                for (let i = 0; i < data[1].data.length; i++) {
+                    let xValue = (Math.round(.00062137 * data[1].data[i] * 100) /100 ) + lastSegmentEndDistance;
+                    newGraphData.push({x: xValue, y: (Math.round(3.28084 * data[2].data[i]))})  
+                }
+            }
+            else {
+                for (let i = 0; i < data[1].data.length; i++) {
+                    newGraphData.push({x: (Math.round(.00062137 * data[1].data[i] * 100) /100 ), y: (Math.round(3.28084 * data[2].data[i]))})
+                }
+            }
+            var chart = new CanvasJS.Chart("chartContainer", {
+                animationEnabled: true,  
+                title:{
+                    text: "Your Ride"
+                },
+                toolTip: {
+                    content: "Distance: {x} miles <br> Elevation: {y} feet"
+                },
+                axisY: {
+                    title: "Elevation",
+                    suffix: "ft",
+                },
+                axisX: {
+                    title: "Distance",
+                    suffix: "miles"
+                },
+                data: [{
+                    type: "splineArea",
+                    color: "rgba(54,158,173,.7)",
+                    markerSize: 5,
+                    dataPoints: newGraphData
+                }]
+                });
+            chart.render();
+        }
     }
 });
