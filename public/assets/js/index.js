@@ -109,20 +109,40 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                                 const newDeleteButton = document.getElementById("deleteButton");
                                 if (newDeleteButton){
-                                    newDeleteButton.addEventListener("click", () => {
+                                    // Grabs segment data to use for deleting graph data
+                                    $(document).on("click", `[data-index=${e.target.options.metaDataId}]`, function(q){
+                                        this.remove()
+                                        fetch((`segment/${e.target.options.metaDataId}`), {
+                                            method: 'GET',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            },
+                                        }).then((segmentStream) => {
+                                            segmentStream.json().then((segmentData => {
+                                                console.log(segmentData)
+                                                removeGraphData(segmentData);
+                                            }))
+                                        });
+
                                         // Sets corresponding line back to orange
-                                        e.target.setStyle({
-                                            color: 'orange'
-                                        })
-                                        // removes the li element
-                                        li.remove();
+                                        if (e.target.options.color === 'green') {
+                                            e.target.setStyle({
+                                                color:'orange'
+                                            })
+                                        }
+                                        else {
+                                            e.target.setStyle({
+                                                color:'green'
+                                            })
+                                        }
+                                        
                                         // Adjusts total distance and elevation
                                         totalDistance -= (Math.round(e.target.options.metaDataDistance * 0.00062137 * 100) / 100);
                                         totalElevation -= (Math.round(e.target.options.metaDataElevation * 3.28084));
                                         totalDistanceEl.textContent = "Total Distance: " + totalDistance + " miles";
                                         totalElevationEl.textContent = "Total Elevation: " + totalElevation + " feet";
+                                        
 
-                                        // selects the last element in the list
                                         const lastListItem = activityList.lastElementChild;
                                         if (lastListItem) {
                                             let i = document.createElement("button")
@@ -134,14 +154,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 }
 
                                 // changes line color on click
-                                if (initialColor === 'green') {
+                                if (initialColor === 'orange') {
                                     e.target.setStyle({
-                                        color:'orange'
+                                        color:'green'
+                                    })
+                                }
+                                else if (initialColor === 'green') {
+                                    e.target.setStyle({
+                                        color:'red'
                                     })
                                 }
                                 else {
                                     e.target.setStyle({
-                                        color: 'green'
+                                        color: 'orange'
                                     })
                                 }
                                 initialColor = e.target.options.color
@@ -184,6 +209,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     newGraphData.push({x: (Math.round(.00062137 * data[1].data[i] * 100) /100 ), y: (Math.round(3.28084 * data[2].data[i]))})
                 }
             }
+            renderChart();
+        }
+
+        removeGraphData = (data) => {
+            // removes the amount of data from the segment from the end of the graph data
+            for (let i = data[1].data.length; i > 0; i--) {
+                newGraphData.pop();
+                
+            }
+            renderChart();
+        }
+
+        renderChart = () => {
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,  
                 title:{
