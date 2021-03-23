@@ -3,8 +3,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const totalDistanceEl = document.getElementById("totalDistance");
     const totalElevationEl = document.getElementById("totalElevation")
     let totalDistance = 0;
-    let totalElevation = 0;
-    let segmentGraphData = [];
 
     if (event) {
         console.info('DOM loaded');
@@ -35,7 +33,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }).then((response) => {
                 let bounds = mymap.getBounds()
                 response.json().then((data) => {
-                    console.log(data)
                     for (let i = 0; i < data.segments.length; i++) {
                         if (!idList.includes(data.segments[i].id)) {
                             idList.push(data.segments[i].id)
@@ -71,7 +68,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     },
                                 }).then((segmentStream) => {
                                     segmentStream.json().then((segmentData => {
-                                        console.log(segmentData)
                                         createGraph(segmentData);
                                     }))
                                 })
@@ -83,9 +79,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 }
 
                                 totalDistance += (Math.round(e.target.options.metaDataDistance * 0.00062137 * 100) / 100);
-                                totalElevation += (Math.round(e.target.options.metaDataElevation * 3.28084));
                                 totalDistanceEl.textContent = "Total Distance: " + totalDistance + " miles";
-                                totalElevationEl.textContent = "Total Elevation: " + totalElevation + " feet";
 
                                 // Create List Item on click
                                 let li = document.createElement("li");
@@ -136,11 +130,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                             })
                                         }
                                         
-                                        // Adjusts total distance and elevation
+                                        // Adjusts total distance
                                         totalDistance -= (Math.round(e.target.options.metaDataDistance * 0.00062137 * 100) / 100);
-                                        totalElevation -= (Math.round(e.target.options.metaDataElevation * 3.28084));
                                         totalDistanceEl.textContent = "Total Distance: " + totalDistance + " miles";
-                                        totalElevationEl.textContent = "Total Elevation: " + totalElevation + " feet";
                                         
 
                                         const lastListItem = activityList.lastElementChild;
@@ -196,6 +188,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
         })
         
         let newGraphData = [];
+        let elevationGained = 0;
+        let elevationLost = 0;
         const createGraph = (data) => {
             if (newGraphData.length > 0) {
                 const lastSegmentEndDistance = newGraphData[newGraphData.length - 1].x
@@ -209,6 +203,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     newGraphData.push({x: (Math.round(.00062137 * data[1].data[i] * 100) /100 ), y: (Math.round(3.28084 * data[2].data[i]))})
                 }
             }
+
+            for (let i = 0; i < data[2].data.length; i++) {
+                if (data[2].data[i] > data[2].data[i+1]) {
+                    elevationLost += data[2].data[i] - data[2].data[i+1]
+                }
+                else if (data[2].data[i] < data[2].data[i+1]) {
+                    elevationGained += data[2].data[i+1] - data[2].data[i]
+                }    
+            }
+            totalElevationEl.textContent = ('Elevation Gained = ' + (Math.round(elevationGained * 3.28084)) + ' ft Elevation Lost = ' + (Math.round(elevationLost * 3.28084)) + " ft")
+
             renderChart();
         }
 
@@ -218,6 +223,17 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 newGraphData.pop();
                 
             }
+
+            for (let i = 0; i < data[2].data.length; i++) {
+                if (data[2].data[i] > data[2].data[i+1]) {
+                    elevationLost -= data[2].data[i] - data[2].data[i+1]
+                }
+                else if (data[2].data[i] < data[2].data[i+1]) {
+                    elevationGained -= data[2].data[i+1] - data[2].data[i]
+                }    
+            }
+            totalElevationEl.textContent = ('Elevation Gained = ' + (Math.round(elevationGained * 3.28084)) + ' ft Elevation Lost = ' + (Math.round(elevationLost * 3.28084)) + " ft")
+
             renderChart();
         }
 
