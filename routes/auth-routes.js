@@ -6,7 +6,8 @@ router.get('/login', (req, res) => {
 });
 
 router.get('/logout', (req, res) => {
-    res.send('logging out');
+    req.logout();
+    res.render('index');
 });
 
 router.get('/strava', passport.authenticate('strava'),
