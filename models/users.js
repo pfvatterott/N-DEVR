@@ -17,6 +17,9 @@ const Users = sequelize.define('users', {
     },
     user_photo: {
         type: DataTypes.STRING,
+    },
+    access_token: {
+        type: DataTypes.STRING,
     }
 },
 {timestamps: false}
