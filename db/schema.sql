@@ -13,3 +13,17 @@ CREATE TABLE users (
     
     PRIMARY KEY (id)
 );
+
+CREATE TABLE activities {
+    id int NOT NULL AUTO_INCREMENT,
+    activity_name VARCHAR(255),
+    activity_description VARCHAR(255),
+    elevation_gained VARCHAR(255),
+    elevation_lost VARCHAR(255),
+    activity_creator int,
+    invited_members SET,
+    activity_segments SET,
+
+    PRIMARY KEY (id)
+
+}

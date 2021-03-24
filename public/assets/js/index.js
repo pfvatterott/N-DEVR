@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const totalDistanceEl = document.getElementById("totalDistance");
     const totalElevationEl = document.getElementById("totalElevation")
     let totalDistance = 0;
+    let activitySegments = [];
 
     if (event) {
         console.info('DOM loaded');
@@ -68,6 +69,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     },
                                 }).then((segmentStream) => {
                                     segmentStream.json().then((segmentData => {
+                                        activitySegments.push(e.target.options.metaDataId)
                                         createGraph(segmentData);
                                     }))
                                 })
@@ -106,6 +108,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     // Grabs segment data to use for deleting graph data
                                     $(document).on("click", `[data-index=${e.target.options.metaDataId}]`, function(q){
                                         this.remove()
+                                        activitySegments.pop();
                                         fetch((`segment/${e.target.options.metaDataId}`), {
                                             method: 'GET',
                                             headers: {
@@ -142,6 +145,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                             i.setAttribute("id", "deleteButton");
                                             lastListItem.prepend(i)
                                         }
+                                        q.preventDefault()
+                                        q.stopPropagation();
                                     })
                                 }
 
@@ -263,5 +268,22 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 });
             chart.render();
         }
+    }
+
+    const saveActivityButton = document.getElementById('save-activity');
+    if (saveActivityButton) {
+        saveActivityButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log(activitySegments)
+            // const activityInfo = {
+            //     activity_name: ,
+            //     activity_description: ,
+            //     elevation_gained: elevationGained,
+            //     elevation_lost: elevationLost,
+            //     activity_creator: ,
+            //     invited_members: ,
+            //     activity_segments: activitySegments,
+            // }
+        })
     }
 });
