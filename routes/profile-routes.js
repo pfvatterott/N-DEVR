@@ -3,7 +3,7 @@ const stravaApi = require('strava-v3');
 const stravaPassport = require('../config/passport-setup')
 const Users = require('../models/users'); 
 
-
+const Activities = require('../models/activities')
 
 const authCheck = (req, res, next) => {
     // checks if user is logged in

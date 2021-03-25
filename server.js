@@ -9,6 +9,7 @@ const cookieSession = require('cookie-session');
 const passport = require('passport')
 const dotenv = require('dotenv');
 dotenv.config()
+const db = require('./models')
 
 app.use(express.static('public'));
 
@@ -43,5 +44,7 @@ app.get('/main', (req, res) => {
 })
 
 // Start our server so that it can begin listening to client requests.
-app.listen(PORT, () =>
-  console.log(`Server listening on: http://localhost:${PORT}`))
+db.sequelize.sync().then(()=> {
+  app.listen(PORT, () =>
+    console.log(`Server listening on: http://localhost:${PORT}`))
+})

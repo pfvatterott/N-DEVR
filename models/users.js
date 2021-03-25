@@ -1,7 +1,8 @@
 const {Sequelize, DataTypes} = require ('sequelize');
 const sequelize = require('../config/connection');
 
-const Users = sequelize.define('users', {
+module.exports = (sequelize, DataTypes)=>{
+    const Users = sequelize.define('Users', {
     user_name: {
         type: DataTypes.STRING,
     },
@@ -25,6 +26,15 @@ const Users = sequelize.define('users', {
 {timestamps: false}
 );
 
-Users.sync();
+Users.associate = (models) => {
+    // Associating Users with activities
+    // When an Users is deleted, also delete any associated Posts
+    Users.hasMany(models.Activities, {
+      onDelete: 'cascade',
+    });
+  };
 
-module.exports = Users;
+return Users;
+};
+
+
