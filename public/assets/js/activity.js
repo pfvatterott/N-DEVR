@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         let idList = [];
         const getSegments = (southWestLat, southWestLng, northEastLat, northEastLng) =>
-            fetch((`/profile/activity/${southWestLat},${southWestLng},${northEastLat},${northEastLng},`), {
+            fetch((`/profile/activity/${southWestLat},${southWestLng},${northEastLat},${northEastLng}/riding`), {
                 method: 'GET',
                 headers: {
                 'Content-Type': 'application/json',
