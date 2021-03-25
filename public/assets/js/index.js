@@ -1,9 +1,15 @@
+// const { json } = require("sequelize/types");
+
 document.addEventListener('DOMContentLoaded', (event) => {
     const activityList = document.getElementById("activityList");
     const totalDistanceEl = document.getElementById("totalDistance");
     const totalElevationEl = document.getElementById("totalElevation")
     let totalDistance = 0;
     let activitySegments = [];
+    let elevationGained = 0;
+    let elevationLost = 0;
+    let parkingLocation;
+    let listIdentifier = 0;
 
     if (event) {
         console.info('DOM loaded');
@@ -60,6 +66,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     color: initialColor
                                 })
                             }).on('click', (e) => {
+                                listIdentifier++
 
                                 // Gets segment stream of coordinates, elevation, distance
                                 fetch((`segment/${e.target.options.metaDataId}`), {
@@ -91,7 +98,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 let i = document.createElement("button");
                                 i.classList.add("fas", "fa-trash-alt", "right", "deleteButton");
                                 i.setAttribute("id", "deleteButton");
-                                li.setAttribute('data-index', e.target.options.metaDataId);
+                                li.setAttribute('data-index', listIdentifier);
                                 li.classList.add("collection-item");
                                 span.classList.add("title");
                                 span.textContent = e.target.options.metaDataName
@@ -106,7 +113,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 const newDeleteButton = document.getElementById("deleteButton");
                                 if (newDeleteButton){
                                     // Grabs segment data to use for deleting graph data
-                                    $(document).on("click", `[data-index=${e.target.options.metaDataId}]`, function(q){
+                                    $(document).on("click", `[data-index=${listIdentifier}]`, function(q){
                                         this.remove()
                                         activitySegments.pop();
                                         fetch((`segment/${e.target.options.metaDataId}`), {
@@ -147,7 +154,10 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                         }
                                         q.preventDefault()
                                         q.stopPropagation();
+                                        $(document).off('click', `[data-index=${listIdentifier}]`)
+                                        listIdentifier--
                                     })
+                                    
                                 }
 
                                 // changes line color on click
@@ -191,10 +201,35 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const northEastLng = mymap.getBounds()._northEast.lng;
             getSegments(southWestLat, southWestLng, northEastLat, northEastLng);
         })
+
+        var carMarker;
+        mymap.on('contextmenu', function(e) {        
+            var popLocation= e.latlng;
+            var popup = L.popup()
+            .setLatLng(popLocation)
+            .setContent('<a class="waves-effect waves-light btn meeting-point" name="meeting-point" id="meeting-point">Set Meeting Point</a>')
+            .openOn(mymap);
+            const saveButton = document.getElementById('meeting-point')
+            if (saveButton) {
+                saveButton.addEventListener('click', (e) => {
+                    if (mymap.hasLayer(carMarker)) {
+                        mymap.removeLayer(carMarker)
+                    }
+                    parkingLocation = popLocation.lat.toString() + "," + popLocation.lng.toString();
+                    console.log(parkingLocation)
+                    mymap.closePopup();
+                    var carIcon = L.icon({
+                        iconUrl: 'https://cdn.onlinewebfonts.com/svg/img_553938.png',
+                        iconSize: [25, 25]
+                    })
+                    carMarker = L.marker([popLocation.lat, popLocation.lng], {icon: carIcon})
+                    mymap.addLayer(carMarker);
+
+                })
+            }        
+        });
         
         let newGraphData = [];
-        let elevationGained = 0;
-        let elevationLost = 0;
         const createGraph = (data) => {
             if (newGraphData.length > 0) {
                 const lastSegmentEndDistance = newGraphData[newGraphData.length - 1].x
@@ -269,21 +304,23 @@ document.addEventListener('DOMContentLoaded', (event) => {
             chart.render();
         }
     }
-
     const saveActivityButton = document.getElementById('save-activity');
+    const activityName = document.getElementById('activity_name');
+    const userStravaId = document.getElementById('user_strava_id');
+    userStravaId.style.display = 'none';
     if (saveActivityButton) {
         saveActivityButton.addEventListener('click', (e) => {
+            console.log(parkingLocation)
+            const segmentsStringified = activitySegments.toString();
             e.preventDefault();
-            console.log(activitySegments)
-            // const activityInfo = {
-            //     activity_name: ,
-            //     activity_description: ,
-            //     elevation_gained: elevationGained,
-            //     elevation_lost: elevationLost,
-            //     activity_creator: ,
-            //     invited_members: ,
-            //     activity_segments: activitySegments,
-            // }
+            const activityInfo = {
+                activity_name: activityName.value.trim(),
+                elevation_gained: (Math.round(elevationGained * 3.28084)),
+                elevation_lost: (Math.round(elevationLost * 3.28084)),
+                activity_creator: userStravaId.textContent,
+                activity_segments: segmentsStringified,
+            }
+            console.log(activityInfo)
         })
     }
 });

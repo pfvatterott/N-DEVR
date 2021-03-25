@@ -17,16 +17,17 @@ const authCheck = (req, res, next) => {
 }
 
 router.get('/', authCheck, (req, res) => {
-    console.log(req.user[0]._previousDataValues)
     const hbsObject = {
         user: req.user[0]._previousDataValues,
     }
-    console.log(hbsObject)
     res.render('profile', hbsObject);
 })
 
 router.get('/activity', (req, res) => {
-    res.render('activity')
+    const hbsObject = {
+        user: req.user[0]._previousDataValues,
+    }
+    res.render('activity', hbsObject)
 
 })
 
