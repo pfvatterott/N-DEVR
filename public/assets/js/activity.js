@@ -3,8 +3,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const totalDistanceEl = document.getElementById("totalDistance");
     const totalElevationEl = document.getElementById("totalElevation")
     let totalDistance = 0;
-    let totalElevation = 0;
-    let segmentGraphData = [];
+    let activitySegments = [];
+    let elevationGained = 0;
+    let elevationLost = 0;
+    let parkingLocation;
+    let listIdentifier = 0;
 
     if (event) {
         console.info('DOM loaded');
@@ -27,7 +30,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
         let idList = [];
         const getSegments = (southWestLat, southWestLng, northEastLat, northEastLng) =>
-            fetch((`/profile/activity/${southWestLat},${southWestLng},${northEastLat},${northEastLng}/riding`), {
+            fetch((`/profile/activity/${southWestLat},${southWestLng},${northEastLat},${northEastLng}/biking`), {
                 method: 'GET',
                 headers: {
                 'Content-Type': 'application/json',
@@ -35,7 +38,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             }).then((response) => {
                 let bounds = mymap.getBounds()
                 response.json().then((data) => {
-                    console.log(data)
                     for (let i = 0; i < data.segments.length; i++) {
                         if (!idList.includes(data.segments[i].id)) {
                             idList.push(data.segments[i].id)
@@ -62,6 +64,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     color: initialColor
                                 })
                             }).on('click', (e) => {
+                                listIdentifier++
 
                                 // Gets segment stream of coordinates, elevation, distance
                                 fetch((`segment/${e.target.options.metaDataId}`), {
@@ -71,7 +74,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     },
                                 }).then((segmentStream) => {
                                     segmentStream.json().then((segmentData => {
-                                        console.log(segmentData)
+                                        activitySegments.push(e.target.options.metaDataId)
                                         createGraph(segmentData);
                                     }))
                                 })
@@ -83,9 +86,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 }
 
                                 totalDistance += (Math.round(e.target.options.metaDataDistance * 0.00062137 * 100) / 100);
-                                totalElevation += (Math.round(e.target.options.metaDataElevation * 3.28084));
                                 totalDistanceEl.textContent = "Total Distance: " + totalDistance + " miles";
-                                totalElevationEl.textContent = "Total Elevation: " + totalElevation + " feet";
 
                                 // Create List Item on click
                                 let li = document.createElement("li");
@@ -95,7 +96,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 let i = document.createElement("button");
                                 i.classList.add("fas", "fa-trash-alt", "right", "deleteButton");
                                 i.setAttribute("id", "deleteButton");
-                                li.setAttribute('data-index', e.target.options.metaDataId);
+                                li.setAttribute('data-index', listIdentifier);
                                 li.classList.add("collection-item");
                                 span.classList.add("title");
                                 span.textContent = e.target.options.metaDataName
@@ -109,20 +110,39 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
                                 const newDeleteButton = document.getElementById("deleteButton");
                                 if (newDeleteButton){
-                                    newDeleteButton.addEventListener("click", () => {
-                                        // Sets corresponding line back to orange
-                                        e.target.setStyle({
-                                            color: 'orange'
-                                        })
-                                        // removes the li element
-                                        li.remove();
-                                        // Adjusts total distance and elevation
-                                        totalDistance -= (Math.round(e.target.options.metaDataDistance * 0.00062137 * 100) / 100);
-                                        totalElevation -= (Math.round(e.target.options.metaDataElevation * 3.28084));
-                                        totalDistanceEl.textContent = "Total Distance: " + totalDistance + " miles";
-                                        totalElevationEl.textContent = "Total Elevation: " + totalElevation + " feet";
+                                    // Grabs segment data to use for deleting graph data
+                                    $(document).on("click", `[data-index=${listIdentifier}]`, function(q){
+                                        this.remove()
+                                        activitySegments.pop();
+                                        fetch((`segment/${e.target.options.metaDataId}`), {
+                                            method: 'GET',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                            },
+                                        }).then((segmentStream) => {
+                                            segmentStream.json().then((segmentData => {
+                                                console.log(segmentData)
+                                                removeGraphData(segmentData);
+                                            }))
+                                        });
 
-                                        // selects the last element in the list
+                                        // Sets corresponding line back to orange
+                                        if (e.target.options.color === 'green') {
+                                            e.target.setStyle({
+                                                color:'orange'
+                                            })
+                                        }
+                                        else {
+                                            e.target.setStyle({
+                                                color:'green'
+                                            })
+                                        }
+                                        
+                                        // Adjusts total distance
+                                        totalDistance -= (Math.round(e.target.options.metaDataDistance * 0.00062137 * 100) / 100);
+                                        totalDistanceEl.textContent = "Total Distance: " + totalDistance + " miles";
+                                        
+
                                         const lastListItem = activityList.lastElementChild;
                                         if (lastListItem) {
                                             let i = document.createElement("button")
@@ -130,18 +150,28 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                             i.setAttribute("id", "deleteButton");
                                             lastListItem.prepend(i)
                                         }
+                                        q.preventDefault()
+                                        q.stopPropagation();
+                                        $(document).off('click', `[data-index=${listIdentifier}]`)
+                                        listIdentifier--
                                     })
+                                    
                                 }
 
                                 // changes line color on click
-                                if (initialColor === 'green') {
+                                if (initialColor === 'orange') {
                                     e.target.setStyle({
-                                        color:'orange'
+                                        color:'green'
+                                    })
+                                }
+                                else if (initialColor === 'green') {
+                                    e.target.setStyle({
+                                        color:'red'
                                     })
                                 }
                                 else {
                                     e.target.setStyle({
-                                        color: 'green'
+                                        color: 'orange'
                                     })
                                 }
                                 initialColor = e.target.options.color
@@ -169,6 +199,33 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const northEastLng = mymap.getBounds()._northEast.lng;
             getSegments(southWestLat, southWestLng, northEastLat, northEastLng);
         })
+
+        var carMarker;
+        mymap.on('contextmenu', function(e) {        
+            var popLocation= e.latlng;
+            var popup = L.popup()
+            .setLatLng(popLocation)
+            .setContent('<a class="waves-effect waves-light btn meeting-point" name="meeting-point" id="meeting-point">Set Meeting Point</a>')
+            .openOn(mymap);
+            const saveButton = document.getElementById('meeting-point')
+            if (saveButton) {
+                saveButton.addEventListener('click', (e) => {
+                    if (mymap.hasLayer(carMarker)) {
+                        mymap.removeLayer(carMarker)
+                    }
+                    parkingLocation = popLocation.lat.toString() + "," + popLocation.lng.toString();
+                    console.log(parkingLocation)
+                    mymap.closePopup();
+                    var carIcon = L.icon({
+                        iconUrl: 'https://cdn.onlinewebfonts.com/svg/img_553938.png',
+                        iconSize: [25, 25]
+                    })
+                    carMarker = L.marker([popLocation.lat, popLocation.lng], {icon: carIcon})
+                    mymap.addLayer(carMarker);
+
+                })
+            }        
+        });
         
         let newGraphData = [];
         const createGraph = (data) => {
@@ -184,6 +241,41 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     newGraphData.push({x: (Math.round(.00062137 * data[1].data[i] * 100) /100 ), y: (Math.round(3.28084 * data[2].data[i]))})
                 }
             }
+
+            for (let i = 0; i < data[2].data.length; i++) {
+                if (data[2].data[i] > data[2].data[i+1]) {
+                    elevationLost += data[2].data[i] - data[2].data[i+1]
+                }
+                else if (data[2].data[i] < data[2].data[i+1]) {
+                    elevationGained += data[2].data[i+1] - data[2].data[i]
+                }    
+            }
+            totalElevationEl.textContent = ('Elevation Gained = ' + (Math.round(elevationGained * 3.28084)) + ' ft Elevation Lost = ' + (Math.round(elevationLost * 3.28084)) + " ft")
+
+            renderChart();
+        }
+
+        removeGraphData = (data) => {
+            // removes the amount of data from the segment from the end of the graph data
+            for (let i = data[1].data.length; i > 0; i--) {
+                newGraphData.pop();
+                
+            }
+
+            for (let i = 0; i < data[2].data.length; i++) {
+                if (data[2].data[i] > data[2].data[i+1]) {
+                    elevationLost -= data[2].data[i] - data[2].data[i+1]
+                }
+                else if (data[2].data[i] < data[2].data[i+1]) {
+                    elevationGained -= data[2].data[i+1] - data[2].data[i]
+                }    
+            }
+            totalElevationEl.textContent = ('Elevation Gained = ' + (Math.round(elevationGained * 3.28084)) + ' ft Elevation Lost = ' + (Math.round(elevationLost * 3.28084)) + " ft")
+
+            renderChart();
+        }
+
+        renderChart = () => {
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,  
                 title:{
@@ -209,5 +301,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 });
             chart.render();
         }
+    }
+    const saveActivityButton = document.getElementById('save-activity');
+    const activityName = document.getElementById('activity_name');
+    const userStravaId = document.getElementById('user_strava_id');
+    userStravaId.style.display = 'none';
+    if (saveActivityButton) {
+        saveActivityButton.addEventListener('click', (e) => {
+            console.log(parkingLocation)
+            const segmentsStringified = activitySegments.toString();
+            e.preventDefault();
+            const activityInfo = {
+                activity_name: activityName.value.trim(),
+                elevation_gained: (Math.round(elevationGained * 3.28084)),
+                elevation_lost: (Math.round(elevationLost * 3.28084)),
+                activity_creator: userStravaId.textContent,
+                activity_segments: segmentsStringified,
+            }
+            console.log(activityInfo)
+        })
     }
 });

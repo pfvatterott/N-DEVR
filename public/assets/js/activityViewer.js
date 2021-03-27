@@ -10,18 +10,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     }).then((response) => {
         response.json().then((data) => {
 
-            console.log(data)
-            // creates directions button
-            const topInformationSection = document.getElementById('topInformationSection');
-            const a = document.createElement('a');
-            a.classList.add('waves-effect', 'waves-light', 'btn');
-            const meetingCoords = data[0].activity_meeting_location.split(",");
-            a.setAttribute('href', `http://maps.google.com/maps?daddr=${meetingCoords[0]},${meetingCoords[1]}`)
-            a.setAttribute('target', '_blank');
-            a.textContent = 'Directions';
-            topInformationSection.appendChild(a)
-            
-
             // create participant list by requesting user info from user database
             const participants = (data[0].activity_participants).split(',')
             for (let i = 0; i < participants.length; i++) {
@@ -36,7 +24,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         let img = document.createElement('img');
                         let span = document.createElement('span');
         
-                        li.classList.add("collection-item", "avatar")
+                        li.classList.add("collection-item", "avatar", "valign-wrapper")
                         img.classList.add("circle");
                         img.setAttribute('src', participant[0].user_photo);
                         span.classList.add('title');
@@ -53,7 +41,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const mapTest = document.getElementById('mapid');
             if (mapTest) {
                 const meetingCoords = data[0].activity_meeting_location.split(",");
-                var mymap = L.map('mapid').setView([+meetingCoords[0], +meetingCoords[1]], 14);
+                var mymap = L.map('mapid').setView([+meetingCoords[0], +meetingCoords[1]], 15);
                 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
                     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
                     maxZoom: 18,
@@ -63,6 +51,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     // hid this!!
                     accessToken: 'pk.eyJ1IjoicGZ2YXR0ZXJvdHQiLCJhIjoiY2tsODZxOW5uMXo3ZTJ4bW1iN3YwbWpsaCJ9.LGIyO-vQru6dyenUYpZE3A'
                 }).addTo(mymap);
+
+                // marker for meeting location
+                var marker = L.marker([+meetingCoords[0], +meetingCoords[1]], {
+                    title: `Directions`,
+                }).bindPopup(`<a class="waves-effect waves-light btn" href='http://maps.google.com/maps?daddr=${meetingCoords[0]},${meetingCoords[1]}' target="_blank">Directions</a>`).addTo(mymap)
+
+
                 // requesting strava API for segment info/polylines
                 const activitySegments = (data[0].activity_segments).split(',')
                 for (let i = 0; i < activitySegments.length; i++) {
@@ -73,6 +68,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         },  
                     }).then((segmentData) => {
                         segmentData.json().then((segment) => {
+                            // map polylines
                             var coordinates = L.Polyline.fromEncoded(segment.map.polyline).getLatLngs()
                             L.polyline(
                                 coordinates,
@@ -82,10 +78,32 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     opacity: .9,
                                     lineJoin: 'round',
                                 },
-                            ).addTo(mymap)
+                                ).on('mouseover', (e) => {
+                                    initialColor = e.target.options.color;
+                                    e.target.setStyle({
+                                        color: 'yellow'
+                                    })
+                                }).on('mouseout', (e) => {
+                                    e.target.setStyle({
+                                        color: initialColor
+                                    })
+                                }).bindTooltip(segment.name).addTo(mymap)
+                            // creating list of segments
+                            const segmentList = document.getElementById('segmentList');
+                            const tr = document.createElement('tr')
+                            const tdName = document.createElement('td');
+                            const tdDistance = document.createElement('td');
+                            const tdElevation = document.createElement('td');
+
+                            tdName.textContent = segment.name;
+                            tdDistance.textContent = ((Math.round(0.00062137 * segment.distance * 100) / 100) + " miles");
+                            tdElevation.textContent = ((Math.round(segment.total_elevation_gain * 3.28084)) + " ft");
+                            tr.appendChild(tdName)
+                            tr.appendChild(tdDistance)
+                            tr.appendChild(tdElevation)
+                            segmentList.appendChild(tr);
                         })
                     })
-                    
                 }
             }
 
@@ -113,10 +131,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             }
                         }
                         var chart = new CanvasJS.Chart("chartContainer", {
-                            animationEnabled: true,  
-                            title:{
-                                text: "Your Ride"
-                            },
+                            animationEnabled: true,
                             toolTip: {
                                 content: "Distance: {x} miles <br> Elevation: {y} feet"
                             },
@@ -130,7 +145,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             },
                             data: [{
                                 type: "splineArea",
-                                color: "rgba(54,158,173,.7)",
+                                color: "#EBAF1A",
                                 markerSize: 5,
                                 dataPoints: newGraphData
                             }]
