@@ -21,6 +21,12 @@ module.exports = (sequelize, DataTypes)=>{
     },
     access_token: {
         type: DataTypes.STRING,
+    },
+    user_city: {
+        type: DataTypes.STRING,
+    },
+    user_state: {
+        type: DataTypes.STRING,
     }
 },
 {timestamps: false}

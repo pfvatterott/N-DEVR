@@ -8,10 +8,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let elevationLost = 0;
     let parkingLocation;
     let listIdentifier = 0;
+    
 
     if (event) {
         console.info('DOM loaded');
     };
+
+    // rounding function for distance
+    function round(value, decimals) {
+        return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+    }  
 
     // if map present in html, create map
     const mapTest = document.getElementById('mapid');
@@ -85,8 +91,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     oldDeleteButton.remove();
                                 }
 
-                                totalDistance += (Math.round(e.target.options.metaDataDistance * 0.00062137 * 100) / 100);
-                                totalDistanceEl.textContent = "Total Distance: " + totalDistance + " miles";
+                                totalDistance += round(e.target.options.metaDataDistance * 0.00062137, 2)
+                                // totalDistance += (Math.round((e.target.options.metaDataDistance * 0.00062137) * 100) / 100);
+                                totalDistanceEl.textContent = "Total Distance: " + totalDistance.toFixed(2) + " miles";
 
                                 // Create List Item on click
                                 let li = document.createElement("li");
@@ -121,7 +128,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                             },
                                         }).then((segmentStream) => {
                                             segmentStream.json().then((segmentData => {
-                                                console.log(segmentData)
                                                 removeGraphData(segmentData);
                                             }))
                                         });
@@ -139,8 +145,12 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                         }
                                         
                                         // Adjusts total distance
-                                        totalDistance -= (Math.round(e.target.options.metaDataDistance * 0.00062137 * 100) / 100);
-                                        totalDistanceEl.textContent = "Total Distance: " + totalDistance + " miles";
+                                        
+                                        totalDistance -= round(e.target.options.metaDataDistance * 0.00062137, 2)
+                                        if (totalDistance < 0) {
+                                            totalDistance = 0;
+                                        }
+                                        totalDistanceEl.textContent = "Total Distance: " + totalDistance.toFixed(2) + " miles";
                                         
 
                                         const lastListItem = activityList.lastElementChild;

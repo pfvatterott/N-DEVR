@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
         }, 
     }).then((response) => {
         response.json().then((data) => {
-
             // create participant list by requesting user info from user database
             const participants = (data[0].activity_participants).split(',')
+            console.log(participants)
             for (let i = 0; i < participants.length; i++) {
                 fetch((`/profile/searchParticipants/${participants[i]}`), {
                     method: "GET",
@@ -136,18 +136,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 content: "Distance: {x} miles <br> Elevation: {y} feet"
                             },
                             axisY: {
-                                title: "Elevation",
                                 suffix: "ft",
+                                gridThickness: 0,
                             },
                             axisX: {
-                                title: "Distance",
                                 suffix: "miles"
                             },
                             data: [{
                                 type: "splineArea",
+                                lineThickness: 3,
                                 color: "#EBAF1A",
-                                markerSize: 5,
-                                dataPoints: newGraphData
+                                dataPoints: newGraphData,
+                                markerType: "none",
                             }]
                             });
                         chart.render();
