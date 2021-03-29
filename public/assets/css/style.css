@@ -1,6 +1,7 @@
 nav {
   height: 75px;
   line-height: 75px;
+  background-image: linear-gradient(to right,#027F9E, black);;
 }
 
 .sidenav {
