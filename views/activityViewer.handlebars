@@ -1,0 +1,27 @@
+<section class="section">
+    <div class="row container">
+        <div class='col s12' id='topInformationSection'>
+            <h3>{{activity_name}}</h3>
+            <h6>{{activity_date}}</h6>
+            <h6>{{activity_time}}</h6>
+        </div>
+    </div>
+    <div class='row container'>
+        <div class='col s12 m6'>
+            <h5>Who's Coming Along</h5>
+            <ul id="participantList" class="collection">
+            </ul>
+        </div>
+        <div class='col s12 m6'>
+            <div id="mapid" style="height: 500px"></div>
+        </div>
+    </div>
+    <div class='row container'>
+        <div class='col s12'>
+            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        </div>
+    </div>
+    <p id="activityId">{{id}}</p>
+</section>
+
+<script src="/assets/js/activityViewer.js"></script>

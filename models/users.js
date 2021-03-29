@@ -34,7 +34,9 @@ Users.associate = (models) => {
     });
   };
 
+
 return Users;
 };
+
 
 
