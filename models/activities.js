@@ -59,3 +59,4 @@ Activities.associate = (models) => {
 
   return Activities;
 };
+
