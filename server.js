@@ -33,7 +33,6 @@ app.use(passport.session());
 app.use('/auth', authRoutes)
 app.use('/profile', profileRoutes)
 
-
 // Import routes and give the server access to them.
 app.get('/', (req, res) => {
   res.render('index')
@@ -42,6 +41,11 @@ app.get('/', (req, res) => {
 app.get('/main', (req, res) => {
   res.render('main')
 })
+
+app.get('/about', (req, res) => {
+  res.render('about')
+})
+
 
 // Start our server so that it can begin listening to client requests.
 db.sequelize.sync().then(()=> {
