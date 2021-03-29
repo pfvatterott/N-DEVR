@@ -1,4 +1,5 @@
 
+<<<<<<< Updated upstream
 {
   "development": {
     "username": "root",
@@ -10,3 +11,19 @@
   }
 }
 
+=======
+    {
+      "development": {
+      "username": "root",
+      "password": "$Uper123",
+      "database": "strava_app_db",
+      "host": "127.0.0.1",
+      "port": 3306,
+      "dialect": "mysql"
+    },
+    "production": {
+      "use_env_variable":"JAWSDB_URL",
+      "dialect": "mysql"
+    }
+  }
+>>>>>>> Stashed changes
