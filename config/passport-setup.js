@@ -2,7 +2,6 @@ const passport = require('passport');
 const StravaStrategy = require('passport-strava-oauth2').Strategy;
 const dotenv = require('dotenv');
 dotenv.config()
-const connection = require('./connection');
 const {Users} = require('../models');
 
 

@@ -1,68 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-      <title>Project 1</title>
-    <!-- Material Icon CDN -->
-      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- Materialize CSS CDN -->
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
-    {{!-- LeafletJS --}}
-     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-      crossorigin=""/>
-       <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
-      integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
-      crossorigin=""></script>
-    <!-- Font Awesome -->
-      <link rel="preconnect" href="https://fonts.gstatic.com" />
-      <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet" />
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
-      <script src="/assets/js/Polyline.encoded.js"></script>
-    {{!-- CSS --}}
-      <link rel="stylesheet" href='/assets/css/style.css'/>
-            
-    <style>
-      body {
-        display: flex;
-        min-height: 100vh;
-        flex-direction: column;
-        }
-      main {
-        flex: 1 0 auto;
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <nav class="cyan">
-        <div class="nav-wrapper">
-          <div class="container">
-            <a href="#" class="brand-logo">Project 1</a>
-          </div>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ndevr</title>
+
+  {{!-- Material Icon CDN --}}
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  {{!-- Compiled and minified CSS --}}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+  {{!-- LeafletJS --}}
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+
+  <!-- Font Awesome -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Offside&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+    crossorigin="anonymous" />
+
+  {{!-- Polyline --}}
+  <script src="/assets/js/Polyline.encoded.js"></script>
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" href="/assets/img/favicon.png" type="image/x-icon" />
+
+  {{!-- CSS --}}
+  <link rel="stylesheet" href="/assets/css/style.css">
+
+</head>
+
+<body>
+
+  {{!-- Header --}}
+  <header>
+    <nav class="nav-wrapper" style='background-color: #027F9E'>
+      <div class="container">
+        <a href="/" class="brand-logo">
+          <img src="/assets/img/ndevr-white.png" width="75" height="75" alt="Ndevr Logo" /></a>
+        <a href="#" class="sidenav-trigger" data-target="mobile-links">
+          <i class="material-icons">menu</i>
+        </a>
+        <ul class="right hide-on-med-and-down" id="ndevrfont">
+          <li><a href="/about">ABOUT</a></li>
+          <li><a href="mailto:ryan.hadfield@gmail.com" target="_blank">CONTACT</a></li>
+          <li><a style='color: #EBAF1A' href="/auth/login">LOGIN</a></li>
+          <li><a href="/profile"><img class = "circle" src={{user.user_photo}}></a></li>
+        </ul>
+      </div>
+      <ul class="sidenav" style='background-color: #027F9E' id="mobile-links">
+        <li><a href="/about">ABOUT</a></li>
+        <li><a href="mailto:ryan.hadfield@gmail.com">CONTACT</a></li>
+        <li><a style='color: #EBAF1A' href="/auth/login">LOGIN</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    {{{ body }}}
+  </main>
+
+  {{!-- Footer --}}
+  <footer class="page-footer" style='background-color: #027F9E'>
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12" style='background-color: #027F9E'>
+          <a href="about.html">
+            <h5 style='color: #EBAF1A' id="ndevrfont">About Us</h5>
+            <p class="white-text">
+              Use N-DEVR to help plan your next outdoor adventure...
+            </p>
+          </a>
         </div>
-      </nav>
-    </header>
-    <main>
-      {{{ body }}}
-    </main>
-    <!-- jQuery CDN -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
-    <!-- Materialize JS CDN -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-    {{!-- CanvasJS --}}
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-    <script>
-      $("document").ready(function(){
-        $(".button-collapse").sideNav();
-      });
-      $('#textarea1').val('New Text');
-      $('.parallax').parallax();
+
+        <div class="col l4 offset-l2 s12" style='background-color: #027F9E'>
+          <a href="mailto:ryan.hadfield@gmail.com">
+            <h5 style='color: #EBAF1A' id="ndevrfont">Contact</h5>
+            <a href="mailto:ryan.hadfield@gmail.com" target="_blank" class="btn-floating btn-small black">
+              <i class="fa fa-envelope" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.facebook.com/N-devr-114316234081696" target="_blank"
+                class="btn-floating btn-small blue darken-2">
+                <i class="fab fa-facebook-square"></i>
+              </a>
+              <a href="https://www.instagram.com/ndevr_adventure/" target="_blank" class="btn-floating btn-small pink">
+                <i class="fab fa-instagram"></i>
+              </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright grey darken-4">
+      <div class="container center-align">&copy; 2021 Ndevr</div>
+    </div>
+  </footer>
 
 
+  <!-- jQuery CDN -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.js"></script>
 
-    </script>
-  </body>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  {{!-- Main JS --}}
+  <script src="/assets/js/index.js"></script>
+
+  {{!-- CanvasJS --}}
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+
+  <script>
+    $("document").ready(function () {
+      $(".sidenav").sidenav();
+      $(".parallax").parallax();
+    });
+    $('#textarea1').val('New Text');
+  </script>
+</body>
 </html>
