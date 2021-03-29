@@ -1,24 +1,99 @@
-<section class="section">
+<section class="section grey lighten-5">
     <div class="row container">
-        <div class='col s12' id='topInformationSection'>
-            <h3>{{activity_name}}</h3>
-            <h6>{{activity_date}}</h6>
-            <h6>{{activity_time}}</h6>
+        <div class='col s12 m6' id='topInformationSection'>
+            <div class="card hoverable">
+                <div class='card-content'>
+                    <span class="card-title" style="font-size: 2em"><i class="fas fa-biking"></i>   {{activity_name}}</span>
+                    <br>
+                    <p class="grey-text text-darken-3 lighten-3"><i class="fas fa-info-circle" style="font-size: 2em"></i>    {{activity_desc}}</p>
+                </div>
+            </div>
+        </div>
+        <div class='col s12 m6' id='topInformationSection'>
+            <div class="card hoverable">
+                <div class='card-content'>
+                    <h6><i style="font-size: 3em" class="far fa-calendar-alt"></i>    {{activity_date}}</h6>
+                    <h6><i style="font-size: 3em" class="fas fa-clock"></i>    {{activity_time}}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row container">
+        <div class="col s12 m4">
+            <div class="card hoverable">
+                <div class="card-content">
+                    <span class="card-title center-align">Distance</span>
+                    <div class="row center-align">
+                        <i style="font-size: 6em" class="fas fa-running center-align"></i>
+                    </div>
+                    <h3 class='center-align'>{{total_distance}} miles</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m4">
+            <div class="card hoverable">
+                <div class="card-content">
+                    <span class="card-title center-align">Elevation Gain</span>
+                    <div class="row center-align">
+                        <i style="font-size: 6em" class="fas fa-arrow-up center-align"></i>
+                    </div>
+                    <h3 class='center-align'>{{total_elevationGain}} feet</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m4">
+            <div class="card hoverable">
+                <div class="card-content">
+                    <span class="card-title center-align">Elevation Loss</span>
+                    <div class="row center-align">
+                        <i style="font-size: 6em" class="fas fa-arrow-down center-align"></i>
+                    </div>
+                    <h3 class='center-align'>{{total_elevationLoss}} feet</h3>
+                </div>
+            </div>
         </div>
     </div>
     <div class='row container'>
-        <div class='col s12 m6'>
-            <h5>Who's Coming Along</h5>
-            <ul id="participantList" class="collection">
-            </ul>
-        </div>
-        <div class='col s12 m6'>
-            <div id="mapid" style="height: 500px"></div>
+            <div class='col s12 m4'>
+                <div class="card hoverable">
+                    <div class="card-content">
+                        <span class="card-title">Who's Coming Along</span>
+                        <br>
+                        <ul id="participantList" class="collection">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class='col s12 m8'>
+                <div id="mapid" style="height: 500px" class="z-depth-3"></div>
+            </div>
         </div>
     </div>
+    <br>
     <div class='row container'>
-        <div class='col s12'>
-            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        <div class='col s12 m6'>
+            <div class="card hoverable">
+                <div class="card-content">
+                    <table class="highlight">
+                        <thead>
+                            <tr>
+                                <th>Segment Name</th>
+                                <th>Distance</th>
+                                <th>Elevation</th>
+                            </tr>
+                        </thead>
+                        <tbody id='segmentList'>
+                        </tbody>
+                    </table>
+                </div>
+            </div>    
+        </div>
+        <div class='col s12 m6'>
+            <div class="card hoverable">
+                <div class="card-content">
+                    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+                </div>
+            </div>
         </div>
     </div>
     <p id="activityId">{{id}}</p>

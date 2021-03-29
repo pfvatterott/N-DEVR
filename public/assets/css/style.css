@@ -1,83 +1,94 @@
+.profile-top-section {
+    padding-top: 0;
+}
+
+.parallax-profile {
+    height: 600px;
+}
+
+.profile-pic {
+    height: 200px;
+}
+
 nav {
-  height: 75px;
-  line-height: 75px;
-}
-
-.sidenav {
-  font-family: 'Offside', cursive;
-}
-
-.hide {
-  display: none;
-}
-
-.modal {
-  width: 75% !important ;
-  height: 100% !important ;
-} /* increase the height and width as you desire */
-
-
-.datepicker-modal {
-  transform: scale(0.7);
-}
-
-.timepicker-modal {
-  transform: scale(0.7);
-}
-
-#ndevrfont {
-  font-family: 'Offside', cursive;
-}
-
-video {
-  object-fit: cover;
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: -1;
-}
-
-.viewport-header {
-  position:relative;
-  height: 40vh;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#landingpageH1 {
-  font-family: 'Syncopate', sans-serif;
-  color: white;
-  text-transform: uppercase;
-  letter-spacing: 1.5vw;
-  line-height: 1.2;
-  font-size: 5vw;
-  text-align: center;
-}
-
-
-#letsgobtn {
-  background-color: #EB401A;
-  font-family: 'Offside', cursive
-}
-
-.strava-login-button {
-  background-color: #fc4c01;
-  font-family: 'Offside', cursive
-}
-
-
-body {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
-
-main {
-  flex: 1 0 auto;
-}
-
-
+    height: 75px;
+    line-height: 75px;
+  }
+  
+  .sidenav {
+    font-family: 'Offside', cursive;
+  }
+  
+  .hide {
+    display: none;
+  }
+  
+  .modal {
+    width: 75% !important ;
+    height: 100% !important ;
+  } /* increase the height and width as you desire */
+  
+  
+  .datepicker-modal {
+    transform: scale(0.7);
+  }
+  
+  .timepicker-modal {
+    transform: scale(0.7);
+  }
+  
+  #ndevrfont {
+    font-family: 'Offside', cursive;
+  }
+  
+  video {
+    object-fit: cover;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+  
+  .viewport-header {
+    position:relative;
+    height: 40vh;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #landingpageH1 {
+    font-family: 'Syncopate', sans-serif;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 1.5vw;
+    line-height: 1.2;
+    font-size: 5vw;
+    text-align: center;
+  }
+  
+  
+  #letsgobtn {
+    background-color: #EB401A;
+    font-family: 'Offside', cursive
+  }
+  
+  .strava-login-button {
+    background-color: #fc4c01;
+    font-family: 'Offside', cursive
+  }
+  
+  
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+  
+  main {
+    flex: 1 0 auto;
+  }
+  

@@ -1,21 +1,47 @@
-<section class="section">
-  </div>
-  <div class="row container">
-    <div class="col s12 m6">
-        <h2>Welcome to your Profile</h2>
-        <p>strava user name: {{user.user_name}}</p>
-        <p>strava id: {{user.user_strava_id}}</p>
-        <p>User Full Name: {{user.user_first}} {{user.user_last}}</p>
-        <img src={{user.user_photo}}>
-        <a class="waves-effect waves-light btn strava-login-button" href="/auth/logout">Logout of Strava</a>
+<section class="section profile-top-section">
+  <div class="parallax-container parallax-profile valign-wrapper">
+    <div class="parallax"><img src="https://wallpaperaccess.com/full/340434.png"></div>
+    <div class="row container">
+      <div class="col s12 m6">
+        <img class='circle profile-pic z-depth-3' src={{user.user_photo}}>
+        <h3>{{user.user_first}} {{user.user_last}}</h3>
+        {{#if user.user_city}}
+        <p><i class="fas fa-map-marker-alt"></i> {{user.user_city}}, {{user.user_state}}</p>
+        {{/if}}
+      </div>
+      <div class="col s12 m6">
+        <h4 class='center-align'>Past Activities</h4>
+        <h5 class='center-align'>{{activities.length}}</h5>
+        <br>
+        <h4 class='center-align'>Upcoming Activities</h4>
+        <h5 class='center-align'>{{activities.length}}</h5>
+      </div>
     </div>
+  </div>
+</section>
+<section class="section">
+  <div class="row container">
     <div class='col s12 m6'>
       <h3>Your activities</h3>
-      <div class="collection">
+      <ul class="tabs">
+        <li class="tab col s6"><a href="#upcoming-activities" class="active">Upcoming Activities</a></li>
+        <li class="tab col s6"><a href="#past-activities">Past Activities</a></li>
+      </ul>
+      <div class="collection" id="upcoming-activities">
         {{#each activities}}
-        <a href="viewActivity/{{id}}" class="collection-item">{{activity_name}}</a>
+        <a href="/profile/viewActivity/{{id}}" class="collection-item">{{activity_name}}
+        </a>
         {{/each}}
       </div>
+      <div class="collection" id="past-activities">
+        {{#each activities}}
+        <a href="/profile/viewActivity/{{id}}" class="collection-item">{{activity_name}}</a>
+        {{/each}}
+      </div>
+    </div>
+    <div class="col s12 m6">
+      <a class="waves-effect waves-light btn strava-login-button" href="/auth/logout">Logout of Strava</a>
+      <a class="waves-effect waves-light btn strava-login-button" href="/profile/activity">Create new Activity</a>
     </div>
   </div>
 </section>
