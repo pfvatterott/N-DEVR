@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                             L.polyline(
                                 coordinates,
                                 {
-                                    color: 'orange',
+                                    color: '#EBAF1A',
                                     weight: 5,
                                     opacity: .9,
                                     lineJoin: 'round',
