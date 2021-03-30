@@ -1,11 +1,32 @@
 nav {
   height: 75px;
   line-height: 75px;
-  background-image: linear-gradient(to right,#027F9E, black);;
+  background-image: linear-gradient(to right, #027f9e, black);
+}
+
+nav {
+  height: 75px;
+  line-height: 75px;
 }
 
 .sidenav {
-  font-family: 'Offside', cursive;
+  font-family: "Offside", cursive;
+}
+
+.profile-top-section {
+  padding-top: 0;
+}
+
+.parallax-profile {
+  height: 600px;
+}
+
+.profile-pic {
+  height: 200px;
+}
+
+#welcome {
+  font-family: "Exo 2", sans-serif;
 }
 
 .hide {
@@ -20,17 +41,31 @@ nav {
   transform: scale(0.7);
 }
 
-.profile-top-section {
-    padding-top: 0;
+#ndevrfont {
+  font-family: "Offside", cursive;
 }
 
-.parallax-profile {
-    height: 600px;
+
+/* Video background on index.handlebars */
+video {
+  object-fit: cover;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 
-.profile-pic {
-    height: 200px;
+.viewport-header {
+  position: relative;
+  height: 40vh;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
 
 nav {
     height: 75px;
@@ -133,3 +168,4 @@ nav {
     flex: 1 0 auto;
   }
   
+
