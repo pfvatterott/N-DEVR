@@ -6,8 +6,8 @@ const profileRoutes = require('./routes/profile-routes');
 const passportSetup = require('./config/passport-setup');
 const cookieSession = require('cookie-session');
 const passport = require('passport')
-// const dotenv = require('dotenv');
-// dotenv.config()
+const dotenv = require('dotenv');
+dotenv.config()
 const db = require('./models')
 
 app.use(express.static('public'));
