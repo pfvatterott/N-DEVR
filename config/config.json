@@ -1,14 +1,24 @@
 {
   "development": {
-  "username": "root",
-  "password": "S0uthp4rk@79",
-  "database": "strava_app_db",
-  "host": "127.0.0.1",
-  "port": 3306,
-  "dialect": "mysql"
-},
-"production": {
-  "use_env_variable":"JAWSDB_URL",
-  "dialect": "mysql"
-}
+    "username": "root",
+    "password": "$Uper123",
+    "database": "strava_app_db",
+    "host": "127.0.0.1",
+    "port": 3306,
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "fg2lj0zyd0ukq2gm",
+    "password": "rfmbf3il8oyshhfy",
+    "database": "bhix9eqhw1r3klnp",
+    "host": "vkh7buea61avxg07.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "fg2lj0zyd0ukq2gm",
+    "password": "rfmbf3il8oyshhfy",
+    "database": "bhix9eqhw1r3klnp",
+    "host": "vkh7buea61avxg07.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+    "dialect": "mysql"
+  }
 }
