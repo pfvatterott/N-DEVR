@@ -12,12 +12,6 @@ nav {
   display: none;
 }
 
-.modal {
-  width: 75% !important ;
-  height: 100% !important ;
-} /* increase the height and width as you desire */
-
-
 .datepicker-modal {
   transform: scale(0.7);
 }
@@ -50,12 +44,21 @@ nav {
   .hide {
     display: none;
   }
+
+  #modal1 {
+    width: 70%;
+    height: 70%;
+  }
   
-  .modal {
-    width: 75% !important ;
-    height: 100% !important ;
+  #modal2 {
+    width: 70%;
+    height: 70%;
   } /* increase the height and width as you desire */
-  
+
+  #modal3 {
+    width: 70%;
+    height: 70%;
+  }
   
   .datepicker-modal {
     transform: scale(0.7);
@@ -100,6 +103,16 @@ nav {
   
   
   #letsgobtn {
+    background-color: #EB401A;
+    font-family: 'Offside', cursive
+  }
+
+  #friendSearch {
+    background-color: #EB401A;
+    font-family: 'Offside', cursive
+  }
+
+  #save-activity {
     background-color: #EB401A;
     font-family: 'Offside', cursive
   }

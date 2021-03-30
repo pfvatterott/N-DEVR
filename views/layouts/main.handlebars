@@ -32,6 +32,9 @@
   {{!-- Polyline --}}
   <script src="/assets/js/Polyline.encoded.js"></script>
 
+  <!-- momentJS -->
+  <script type="text/javascript" src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+
   <!-- Favicon -->
   <link rel="shortcut icon" href="/assets/img/favicon.png" type="image/x-icon" />
 
@@ -55,7 +58,7 @@
           <li><a href="/about">ABOUT</a></li>
           <li><a href="mailto:ryan.hadfield@gmail.com" target="_blank">CONTACT</a></li>
           <li><a style='color: #EBAF1A' href="/auth/login">LOGIN</a></li>
-          <li><a href="/profile"><img class = "circle" src={{user.user_photo}}></a></li>
+          <li><a href="/profile"><img class="circle" src={{user.user_photo}}></a></li>
         </ul>
       </div>
       <ul class="sidenav" style='background-color: #027F9E' id="mobile-links">
@@ -91,12 +94,12 @@
               <i class="fa fa-envelope" aria-hidden="true"></i>
             </a>
             <a href="https://www.facebook.com/N-devr-114316234081696" target="_blank"
-                class="btn-floating btn-small blue darken-2">
-                <i class="fab fa-facebook-square"></i>
-              </a>
-              <a href="https://www.instagram.com/ndevr_adventure/" target="_blank" class="btn-floating btn-small pink">
-                <i class="fab fa-instagram"></i>
-              </a>
+              class="btn-floating btn-small blue darken-2">
+              <i class="fab fa-facebook-square"></i>
+            </a>
+            <a href="https://www.instagram.com/ndevr_adventure/" target="_blank" class="btn-floating btn-small pink">
+              <i class="fab fa-instagram"></i>
+            </a>
         </div>
       </div>
     </div>
@@ -112,8 +115,6 @@
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-  {{!-- Main JS --}}
-  <script src="/assets/js/index.js"></script>
 
   {{!-- CanvasJS --}}
   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -123,11 +124,15 @@
     $("document").ready(function () {
       $(".sidenav").sidenav();
       $(".parallax").parallax();
+      $('#textarea1').val('New Text');
+      $(document).ready(function () {
+        $('.tabs').tabs();
+        $('.modal').modal();
+        $('.datepicker').datepicker();
+        $('.timepicker').timepicker();
+      });
     });
-    $('#textarea1').val('New Text');
-    $(document).ready(function(){
-    $('.tabs').tabs();
-  });
   </script>
 </body>
+
 </html>
