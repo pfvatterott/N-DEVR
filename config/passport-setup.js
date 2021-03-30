@@ -2,7 +2,6 @@ const passport = require('passport');
 const StravaStrategy = require('passport-strava-oauth2').Strategy;
 const dotenv = require('dotenv');
 dotenv.config()
-const connection = require('./connection');
 const {Users} = require('../models');
 
 
@@ -33,6 +32,7 @@ passport.use(new StravaStrategy({
                 user_strava_id: profile.id
             }
         }).then(data => {
+            console.log(profile)
             if (data.count > 0) {
                 console.log(`user is ${profile._json.username}, id#: ${profile.id}`)
                 Users.update({ access_token: accessToken }, {
@@ -57,6 +57,8 @@ passport.use(new StravaStrategy({
                     user_last: profile.name.familyName,
                     user_photo: profile._json.profile,
                     access_token: accessToken,
+                    user_city: profile._json.city,
+                    user_state: profile._json.state
                 }
                 Users.create(newUser).then(data => {
                     done(null, newUser)

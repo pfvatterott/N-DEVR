@@ -1,6 +1,3 @@
-const {Sequelize, DataTypes} = require ('sequelize');
-const sequelize = require('../config/connection');
-
 module.exports = (sequelize, DataTypes)=>{
     const Users = sequelize.define('Users', {
     user_name: {
@@ -20,6 +17,12 @@ module.exports = (sequelize, DataTypes)=>{
         type: DataTypes.STRING,
     },
     access_token: {
+        type: DataTypes.STRING,
+    },
+    user_city: {
+        type: DataTypes.STRING,
+    },
+    user_state: {
         type: DataTypes.STRING,
     }
 },

@@ -4,7 +4,6 @@ const app = express();
 const authRoutes = require('./routes/auth-routes');
 const profileRoutes = require('./routes/profile-routes');
 const passportSetup = require('./config/passport-setup');
-const connection = require('./config/connection');
 const cookieSession = require('cookie-session');
 const passport = require('passport')
 const dotenv = require('dotenv');
