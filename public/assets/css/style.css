@@ -38,32 +38,6 @@ nav {
     height: 200px;
 }
 
-nav {
-    height: 75px;
-    line-height: 75px;
-  }
-  
-  .sidenav {
-    font-family: 'Offside', cursive;
-  }
-  
-  .hide {
-    display: none;
-  }
-  
-  .modal {
-    width: 75% !important ;
-    height: 100% !important ;
-  } /* increase the height and width as you desire */
-  
-  
-  .datepicker-modal {
-    transform: scale(0.7);
-  }
-  
-  .timepicker-modal {
-    transform: scale(0.7);
-  }
   
   #ndevrfont {
     font-family: 'Offside', cursive;
@@ -118,5 +92,14 @@ nav {
   
   main {
     flex: 1 0 auto;
+  }
+
+  .centered-right {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: 'Offside', cursive;
   }
   
