@@ -167,5 +167,13 @@ nav {
   main {
     flex: 1 0 auto;
   }
-  
 
+  .centered-right {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: 'Offside', cursive;
+  }
+  
