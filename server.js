@@ -21,7 +21,7 @@ app.set('view engine', 'handlebars');
 app.use(cookieSession({
   // cookie lasts a day
   maxAge: 24 * 60 * 60 * 1000,
-  keys: [process.env.cookieKey]
+  keys: ['893472angfasdfbaksjdhf234']
 }));
 
 app.use(express.urlencoded({ extended: true }));
