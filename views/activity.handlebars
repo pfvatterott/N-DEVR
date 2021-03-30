@@ -4,6 +4,13 @@
     <h2>Map Test</h2>
   </div>
   <div class="row container">
+    <div class="col s12 m4">
+        
+  <!-- Modal Trigger -->
+  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal
+  </a>
+      <ul class="collection" id="activityList">
+      </ul>
     <form class="col s12">
       <div class="row">
         <div class="input-field col s6">
@@ -40,4 +47,46 @@
   </div>
 </section>
 
-<script src="/assets/js/activity.js"></script>
+
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+
+      <div class="page1">
+
+ <div class="row">
+    <div class="input-field col s6">
+      <input id="activityName" type="text" class="validate">
+      <label class="active" for="activityName">Activity Name</label>
+    </div>
+  </div>
+
+        <div class="row">
+    <form class="col s12">
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="activityDesc" class="materialize-textarea"></textarea>
+          <label for="activityDesc">Activity Desc</label>
+        </div>
+      </div>
+    </form>
+  </div>
+
+   <a href="#!" data-page="page1" class=" pagebtn waves-effect waves-green btn-flat">Next</a>
+      </div>
+
+    <div class="page2 hide">
+      <input type="text" class="datepicker">
+      
+
+      <a href="#!" data-page="page2"  class="pagebtn modal-close waves-effect waves-green btn-flat">Submit</a>
+    </div>
+
+    </div>
+    <div class="modal-footer">
+   
+    </div>
+  </div>
+
+  <script src="/assets/js/activity.js"></script>
