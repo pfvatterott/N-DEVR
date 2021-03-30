@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ndevr</title>
+  <title>N-DEVR</title>
 
   {{!-- Material Icon CDN --}}
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -24,6 +24,7 @@
   <!-- Font Awesome -->
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="https://fonts.googleapis.com/css2?family=Gamja+Flower&family=Offside&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Exo+2&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
@@ -31,6 +32,9 @@
 
   {{!-- Polyline --}}
   <script src="/assets/js/Polyline.encoded.js"></script>
+
+  <!-- momentJS -->
+  <script type="text/javascript" src="https://momentjs.com/downloads/moment-with-locales.js"></script>
 
   <!-- Favicon -->
   <link rel="shortcut icon" href="/assets/img/favicon.png" type="image/x-icon" />
@@ -53,20 +57,14 @@
         </a>
         <ul class="right hide-on-med-and-down" id="ndevrfont">
           <li><a href="/about">ABOUT</a></li>
-          <li><a href="mailto:ryan.hadfield@gmail.com" target="_blank">CONTACT</a></li>
-
-         
+          <li><a href="mailto:ndevr.adventure@gmail.com" target="_blank">CONTACT</a></li>
           <li><a style='color: #EBAF1A' href="/auth/login">LOGIN</a></li>
-          
-          
-          <li><a href="/profile"><img class = "circle" src={{user.user_photo}}></a></li>
         </ul>
       </div>
       <ul class="sidenav" style='background-color: #027F9E' id="mobile-links">
         <li><a href="/">HOME</a></li>
         <li><a href="/about">ABOUT</a></li>
-        <li><a href="mailto:ryan.hadfield@gmail.com">CONTACT</a></li>
-         
+        <li><a href="mailto:ndevr.adventure@gmail.com">CONTACT</a></li>
         <li><a style='color: #EBAF1A' href="/auth/login">LOGIN</a></li>
       </ul>
     </nav>
@@ -90,18 +88,18 @@
         </div>
 
         <div class="col l4 offset-l2 s12" style='background-color: #027F9E'>
-          <a href="mailto:ryan.hadfield@gmail.com">
+          <a href="mailto:ndevr.adventure@gmail.com">
             <h5 style='color: #EBAF1A' id="ndevrfont">Contact</h5>
-            <a href="mailto:ryan.hadfield@gmail.com" target="_blank" class="btn-floating btn-small black">
+            <a href="mailto:ndevr.adventure@gmail.com" target="_blank" class="btn-floating btn-small black">
               <i class="fa fa-envelope" aria-hidden="true"></i>
             </a>
             <a href="https://www.facebook.com/N-devr-114316234081696" target="_blank"
-                class="btn-floating btn-small blue darken-2">
-                <i class="fab fa-facebook-square"></i>
-              </a>
-              <a href="https://www.instagram.com/ndevr_adventure/" target="_blank" class="btn-floating btn-small pink">
-                <i class="fab fa-instagram"></i>
-              </a>
+              class="btn-floating btn-small blue darken-2">
+              <i class="fab fa-facebook-square"></i>
+            </a>
+            <a href="https://www.instagram.com/ndevr_adventure/" target="_blank" class="btn-floating btn-small pink">
+              <i class="fab fa-instagram"></i>
+            </a>
         </div>
       </div>
     </div>
@@ -117,8 +115,6 @@
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-  {{!-- Main JS --}}
-  <script src="/assets/js/index.js"></script>
 
   {{!-- CanvasJS --}}
   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -128,11 +124,15 @@
     $("document").ready(function () {
       $(".sidenav").sidenav();
       $(".parallax").parallax();
+      $('#textarea1').val('New Text');
+      $(document).ready(function () {
+        $('.tabs').tabs();
+        $('.modal').modal();
+        $('.datepicker').datepicker();
+        $('.timepicker').timepicker();
+      });
     });
-    $('#textarea1').val('New Text');
-    $(document).ready(function(){
-    $('.tabs').tabs();
-  });
   </script>
 </body>
+
 </html>

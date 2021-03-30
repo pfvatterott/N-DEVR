@@ -1,15 +1,21 @@
+// const { Model } = require("sequelize/types");
+
+// const { response } = require("express");
+
 document.addEventListener('DOMContentLoaded', (event) => {
     const activityList = document.getElementById("activityList");
     const totalDistanceEl = document.getElementById("totalDistance");
-    const totalElevationEl = document.getElementById("totalElevation")
+    const totalElevationGained = document.getElementById("totalElevationGained")
+    const totalElevationLost = document.getElementById("totalElevationLost")
     let totalDistance = 0;
     let activitySegments = [];
     let elevationGained = 0;
     let elevationLost = 0;
     let parkingLocation;
     let listIdentifier = 0;
+    let participantList = [];
 
-
+   
     if (event) {
         console.info('DOM loaded');
     };
@@ -92,7 +98,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 }
 
                                 totalDistance += round(e.target.options.metaDataDistance * 0.00062137, 2)
-                                totalDistanceEl.textContent = "Total Distance: " + totalDistance.toFixed(2) + " miles";
+                                totalDistanceEl.textContent = totalDistance.toFixed(2) + " miles";
 
                                 // Create List Item on click
                                 const tr = document.createElement('tr')
@@ -152,7 +158,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                         if (totalDistance < 0) {
                                             totalDistance = 0;
                                         }
-                                        totalDistanceEl.textContent = "Total Distance: " + totalDistance.toFixed(2) + " miles";
+                                        totalDistanceEl.textContent = totalDistance.toFixed(2) + " miles";
 
 
                                         const lastListItem = activityList.lastElementChild;
@@ -160,7 +166,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                             let a = document.createElement("a");
                                             let i = document.createElement('i');
                                             a.classList.add('hoverable', 'btn-floating', 'btn', "deleteButton")
-                                            a.setAttribute('data-index', listIdentifier-1);
+                                            a.setAttribute('data-index', listIdentifier - 1);
                                             i.classList.add("fas", "fa-trash-alt", "right");
                                             a.setAttribute("id", "deleteButton");
                                             a.appendChild(i);
@@ -230,7 +236,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         mymap.removeLayer(carMarker)
                     }
                     parkingLocation = popLocation.lat.toString() + "," + popLocation.lng.toString();
-                    console.log(parkingLocation)
                     mymap.closePopup();
                     var carIcon = L.icon({
                         iconUrl: 'https://cdn.onlinewebfonts.com/svg/img_553938.png',
@@ -265,7 +270,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     elevationGained += data[2].data[i + 1] - data[2].data[i]
                 }
             }
-            totalElevationEl.textContent = ('Elevation Gained = ' + (Math.round(elevationGained * 3.28084)) + ' ft Elevation Lost = ' + (Math.round(elevationLost * 3.28084)) + " ft")
+            totalElevationGained.textContent = (Math.round(elevationGained * 3.28084) + " ft")
+            totalElevationLost.textContent = (Math.round(elevationLost * 3.28084) + " ft")
             renderChart();
         }
 
@@ -282,8 +288,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 else if (data[2].data[i] < data[2].data[i + 1]) {
                     elevationGained -= data[2].data[i + 1] - data[2].data[i]
                 }
-              }
-            totalElevationEl.textContent = ('Elevation Gained = ' + (Math.round(elevationGained * 3.28084)) + ' ft Elevation Lost = ' + (Math.round(elevationLost * 3.28084)) + " ft")
+            }
+            totalElevationGained.textContent = (Math.round(elevationGained * 3.28084) + " ft")
+            totalElevationLost.textContent = (Math.round(elevationLost * 3.28084) + " ft")
             renderChart();
         }
 
@@ -313,23 +320,97 @@ document.addEventListener('DOMContentLoaded', (event) => {
             chart.render();
         }
     }
+
+    // friend search
+    $('#friendSearch').on('click', () => {
+        const firstName = $('#first_name').val();
+        const lastName = $('#last_name').val();
+        fetch((`/profile/userSearch/${firstName}&${lastName}`), {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }).then((response) => {
+            response.json().then((data) => {
+                console.log(data)
+
+                let searchList = document.getElementById('searchList')
+                for (let q = 0; q < data.length; q++) {
+                    let li = document.createElement('li');
+                    let img = document.createElement('img');
+                    let span = document.createElement('span');
+                    let a = document.createElement("a");
+                    let i = document.createElement('i');
+
+                    // Button
+                    a.classList.add('hoverable', 'btn-floating', 'btn-large', "addUser", "secondary-content")
+                    i.classList.add("fas", "fa-user-plus");
+                    i.setAttribute("id", "addUser");
+                    i.setAttribute('data-value', data[q].user_strava_id)
+                    a.appendChild(i);
+
+                    // Create Row for each search result
+                    li.classList.add("collection-item", "avatar", "valign-wrapper")
+                    img.classList.add("circle");
+                    img.setAttribute('src', data[q].user_photo);
+                    span.classList.add('title');
+                    span.textContent = data[q].user_first + " " + data[q].user_last;
+                    li.appendChild(img)
+                    li.appendChild(span)
+                    li.appendChild(a)
+                    searchList.appendChild(li);
+
+
+                    $(document).on("click", `[data-value=${data[q].user_strava_id}]`, function () {
+                        this.parentElement.classList.add('disabled')
+                        participantList.push($(this).attr('data-value'))
+
+                    })
+
+                }
+
+            })
+        })
+    })
+
+    // organizing data and saving to db
     const saveActivityButton = document.getElementById('save-activity');
     const activityName = document.getElementById('activity_name');
-    const userStravaId = document.getElementById('user_strava_id');
-    userStravaId.style.display = 'none';
+    const user_id = document.getElementById('user_id');
+    const user_strava = document.getElementById('user_strava_id');
+    user_id.style.display = 'none';
+    user_strava.style.display = 'none';
     if (saveActivityButton) {
         saveActivityButton.addEventListener('click', (e) => {
-            console.log(parkingLocation)
+            participantList.push(user_strava.textContent)
             const segmentsStringified = activitySegments.toString();
             e.preventDefault();
             const activityInfo = {
-                activity_name: activityName.value.trim(),
-                elevation_gained: (Math.round(elevationGained * 3.28084)),
-                elevation_lost: (Math.round(elevationLost * 3.28084)),
-                activity_creator: userStravaId.textContent,
+                activity_type: 'biking',
                 activity_segments: segmentsStringified,
+                total_distance: totalDistance,
+                total_elevationGain: (Math.round(elevationGained * 3.28084)),
+                total_elevationLoss: (Math.round(elevationLost * 3.28084)),
+                activity_name: $('#activityName').val().trim(),
+                activity_desc: $('#activityDesc').val().trim(),
+                activity_date: moment($('.datepicker').val()).format('YYYY-MM-DD'),
+                activity_time: moment($('.timepicker').val(), 'HH:mm a').format('HH:mm:ss'),
+                activity_gear: '',
+                activity_meeting_location: parkingLocation,
+                activity_participants: participantList.toString(),
+                userId: user_id.textContent
             }
             console.log(activityInfo)
+            fetch('/profile/api/createActivity', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(activityInfo),
+            }).then(() => {
+                window.location.replace("http://www.w3schools.com");
+            })
         })
     }
-  });
+
+});
