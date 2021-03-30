@@ -282,7 +282,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 else if (data[2].data[i] < data[2].data[i + 1]) {
                     elevationGained -= data[2].data[i + 1] - data[2].data[i]
                 }
-            }
+              }
             totalElevationEl.textContent = ('Elevation Gained = ' + (Math.round(elevationGained * 3.28084)) + ' ft Elevation Lost = ' + (Math.round(elevationLost * 3.28084)) + " ft")
             renderChart();
         }
@@ -332,4 +332,4 @@ document.addEventListener('DOMContentLoaded', (event) => {
             console.log(activityInfo)
         })
     }
-});
+  });

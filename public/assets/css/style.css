@@ -1,3 +1,31 @@
+nav {
+  height: 75px;
+  line-height: 75px;
+  background-image: linear-gradient(to right,#027F9E, black);;
+}
+
+.sidenav {
+  font-family: 'Offside', cursive;
+}
+
+.hide {
+  display: none;
+}
+
+.modal {
+  width: 75% !important ;
+  height: 100% !important ;
+} /* increase the height and width as you desire */
+
+
+.datepicker-modal {
+  transform: scale(0.7);
+}
+
+.timepicker-modal {
+  transform: scale(0.7);
+}
+
 .profile-top-section {
     padding-top: 0;
 }
