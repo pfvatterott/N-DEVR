@@ -24,6 +24,9 @@ app.use(cookieSession({
   keys: [process.env.cookieKey]
 }));
 
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 // initialize passport
 app.use(passport.initialize());
 app.use(passport.session());

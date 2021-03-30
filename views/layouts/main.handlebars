@@ -33,6 +33,9 @@
   {{!-- Polyline --}}
   <script src="/assets/js/Polyline.encoded.js"></script>
 
+  <!-- momentJS -->
+  <script type="text/javascript" src="https://momentjs.com/downloads/moment-with-locales.js"></script>
+
   <!-- Favicon -->
   <link rel="shortcut icon" href="/assets/img/favicon.png" type="image/x-icon" />
 
@@ -112,8 +115,6 @@
   <!-- Compiled and minified JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 
-  {{!-- Main JS --}}
-  <script src="/assets/js/index.js"></script>
 
   {{!-- CanvasJS --}}
   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -123,10 +124,13 @@
     $("document").ready(function () {
       $(".sidenav").sidenav();
       $(".parallax").parallax();
-    });
-    $('#textarea1').val('New Text');
-    $(document).ready(function () {
-      $('.tabs').tabs();
+      $('#textarea1').val('New Text');
+      $(document).ready(function () {
+        $('.tabs').tabs();
+        $('.modal').modal();
+        $('.datepicker').datepicker();
+        $('.timepicker').timepicker();
+      });
     });
   </script>
 </body>

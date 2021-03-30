@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
-        }, 
+        },
     }).then((response) => {
         response.json().then((data) => {
             // create participant list by requesting user info from user database
@@ -17,13 +17,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     method: "GET",
                     headers: {
                         'Content-Type': 'application/json',
-                    }, 
+                    },
                 }).then((participantData) => {
                     participantData.json().then((participant) => {
                         let li = document.createElement('li');
                         let img = document.createElement('img');
                         let span = document.createElement('span');
-        
+
                         li.classList.add("collection-item", "avatar", "valign-wrapper")
                         img.classList.add("circle");
                         img.setAttribute('src', participant[0].user_photo);
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         method: "GET",
                         headers: {
                             'Content-Type': 'application/json',
-                        },  
+                        },
                     }).then((segmentData) => {
                         segmentData.json().then((segment) => {
                             // map polylines
@@ -78,16 +78,16 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     opacity: .9,
                                     lineJoin: 'round',
                                 },
-                                ).on('mouseover', (e) => {
-                                    initialColor = e.target.options.color;
-                                    e.target.setStyle({
-                                        color: 'yellow'
-                                    })
-                                }).on('mouseout', (e) => {
-                                    e.target.setStyle({
-                                        color: initialColor
-                                    })
-                                }).bindTooltip(segment.name).addTo(mymap)
+                            ).on('mouseover', (e) => {
+                                initialColor = e.target.options.color;
+                                e.target.setStyle({
+                                    color: 'yellow'
+                                })
+                            }).on('mouseout', (e) => {
+                                e.target.setStyle({
+                                    color: initialColor
+                                })
+                            }).bindTooltip(segment.name).addTo(mymap)
                             // creating list of segments
                             const segmentList = document.getElementById('segmentList');
                             const tr = document.createElement('tr')
@@ -121,13 +121,13 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         if (newGraphData.length > 0) {
                             const lastSegmentEndDistance = newGraphData[newGraphData.length - 1].x
                             for (let i = 0; i < segmentData[1].data.length; i++) {
-                                let xValue = (Math.round(.00062137 * segmentData[1].data[i] * 100) /100 ) + lastSegmentEndDistance;
-                                newGraphData.push({x: xValue, y: (Math.round(3.28084 * segmentData[2].data[i]))})  
+                                let xValue = (Math.round(.00062137 * segmentData[1].data[i] * 100) / 100) + lastSegmentEndDistance;
+                                newGraphData.push({ x: xValue, y: (Math.round(3.28084 * segmentData[2].data[i])) })
                             }
                         }
                         else {
                             for (let i = 0; i < segmentData[1].data.length; i++) {
-                                newGraphData.push({x: (Math.round(.00062137 * segmentData[1].data[i] * 100) /100 ), y: (Math.round(3.28084 * segmentData[2].data[i]))})
+                                newGraphData.push({ x: (Math.round(.00062137 * segmentData[1].data[i] * 100) / 100), y: (Math.round(3.28084 * segmentData[2].data[i])) })
                             }
                         }
                         var chart = new CanvasJS.Chart("chartContainer", {
@@ -149,11 +149,11 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                 dataPoints: newGraphData,
                                 markerType: "none",
                             }]
-                            });
+                        });
                         chart.render();
                     }))
                 })
-                
+
             }
         })
     })
