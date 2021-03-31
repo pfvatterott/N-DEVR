@@ -9,6 +9,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
         },
     }).then((response) => {
         response.json().then((data) => {
+
+            // Date and Time
+            const activity_date_el = document.getElementById('activity_date_el')
+            const activity_time_el = document.getElementById('activity_time_el')
+
+            const activityDate = moment(data[0].activity_date).format("MMM DD YYYY")
+            const activityTime = moment(data[0].activity_time, 'HH:mm:ss').format("hh:mm A")
+            activity_date_el.textContent = activityDate;
+            activity_time_el.textContent = activityTime;
+
+
+
+
             // create participant list by requesting user info from user database
             const participants = (data[0].activity_participants).split(',')
             console.log(participants)
@@ -59,51 +72,54 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 
                 // requesting strava API for segment info/polylines
+                const timer = ms => new Promise(res => setTimeout(res, ms))
                 const activitySegments = (data[0].activity_segments).split(',')
                 for (let i = 0; i < activitySegments.length; i++) {
-                    fetch((`/profile/segmentInfo/${activitySegments[i]}`), {
-                        method: "GET",
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }).then((segmentData) => {
-                        segmentData.json().then((segment) => {
-                            // map polylines
-                            var coordinates = L.Polyline.fromEncoded(segment.map.polyline).getLatLngs()
-                            L.polyline(
-                                coordinates,
-                                {
-                                    color: '#EBAF1A',
-                                    weight: 5,
-                                    opacity: .9,
-                                    lineJoin: 'round',
-                                },
-                            ).on('mouseover', (e) => {
-                                initialColor = e.target.options.color;
-                                e.target.setStyle({
-                                    color: 'yellow'
-                                })
-                            }).on('mouseout', (e) => {
-                                e.target.setStyle({
-                                    color: initialColor
-                                })
-                            }).bindTooltip(segment.name).addTo(mymap)
-                            // creating list of segments
-                            const segmentList = document.getElementById('segmentList');
-                            const tr = document.createElement('tr')
-                            const tdName = document.createElement('td');
-                            const tdDistance = document.createElement('td');
-                            const tdElevation = document.createElement('td');
+                    setTimeout(() =>{
+                        fetch((`/profile/segmentInfo/${activitySegments[i]}`), {
+                            method: "GET",
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                        }).then((segmentData) => {
+                            segmentData.json().then((segment) => {
+                                // map polylines
+                                var coordinates = L.Polyline.fromEncoded(segment.map.polyline).getLatLngs()
+                                L.polyline(
+                                    coordinates,
+                                    {
+                                        color: '#EBAF1A',
+                                        weight: 5,
+                                        opacity: .9,
+                                        lineJoin: 'round',
+                                    },
+                                ).on('mouseover', (e) => {
+                                    initialColor = e.target.options.color;
+                                    e.target.setStyle({
+                                        color: 'yellow'
+                                    })
+                                }).on('mouseout', (e) => {
+                                    e.target.setStyle({
+                                        color: initialColor
+                                    })
+                                }).bindTooltip(segment.name).addTo(mymap)
+                                // creating list of segments
+                                const segmentList = document.getElementById('segmentList');
+                                const tr = document.createElement('tr')
+                                const tdName = document.createElement('td');
+                                const tdDistance = document.createElement('td');
+                                const tdElevation = document.createElement('td');
 
-                            tdName.textContent = segment.name;
-                            tdDistance.textContent = ((Math.round(0.00062137 * segment.distance * 100) / 100) + " miles");
-                            tdElevation.textContent = ((Math.round(segment.total_elevation_gain * 3.28084)) + " ft");
-                            tr.appendChild(tdName)
-                            tr.appendChild(tdDistance)
-                            tr.appendChild(tdElevation)
-                            segmentList.appendChild(tr);
+                                tdName.textContent = segment.name;
+                                tdDistance.textContent = ((Math.round(0.00062137 * segment.distance * 100) / 100) + " miles");
+                                tdElevation.textContent = ((Math.round(segment.total_elevation_gain * 3.28084)) + " ft");
+                                tr.appendChild(tdName)
+                                tr.appendChild(tdDistance)
+                                tr.appendChild(tdElevation)
+                                segmentList.appendChild(tr);
+                            })
                         })
-                    })
+                    }, i * 500)
                 }
             }
 
@@ -111,48 +127,52 @@ document.addEventListener('DOMContentLoaded', (event) => {
             const activitySegments = (data[0].activity_segments).split(',')
             let newGraphData = [];
             for (let i = 0; i < activitySegments.length; i++) {
-                fetch((`/profile/segment/${activitySegments[i]}`), {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                }).then((segmentStream) => {
-                    segmentStream.json().then((segmentData => {
-                        if (newGraphData.length > 0) {
-                            const lastSegmentEndDistance = newGraphData[newGraphData.length - 1].x
-                            for (let i = 0; i < segmentData[1].data.length; i++) {
-                                let xValue = (Math.round(.00062137 * segmentData[1].data[i] * 100) / 100) + lastSegmentEndDistance;
-                                newGraphData.push({ x: xValue, y: (Math.round(3.28084 * segmentData[2].data[i])) })
+                setTimeout(() =>{
+                    fetch((`/profile/segment/${activitySegments[i]}`), {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    }).then((segmentStream) => {
+                        segmentStream.json().then((segmentData => {
+                            if (newGraphData.length > 0) {
+                                const lastSegmentEndDistance = newGraphData[newGraphData.length - 1].x
+                                for (let i = 0; i < segmentData[1].data.length; i++) {
+                                    let xValue = (Math.round(.00062137 * segmentData[1].data[i] * 100) / 100) + lastSegmentEndDistance;
+                                    newGraphData.push({ x: xValue, y: (Math.round(3.28084 * segmentData[2].data[i])) })
+                                }
                             }
-                        }
-                        else {
-                            for (let i = 0; i < segmentData[1].data.length; i++) {
-                                newGraphData.push({ x: (Math.round(.00062137 * segmentData[1].data[i] * 100) / 100), y: (Math.round(3.28084 * segmentData[2].data[i])) })
+                            else {
+                                for (let i = 0; i < segmentData[1].data.length; i++) {
+                                    newGraphData.push({ x: (Math.round(.00062137 * segmentData[1].data[i] * 100) / 100), y: (Math.round(3.28084 * segmentData[2].data[i])) })
+                                }
                             }
-                        }
-                        var chart = new CanvasJS.Chart("chartContainer", {
-                            animationEnabled: true,
-                            toolTip: {
-                                content: "Distance: {x} miles <br> Elevation: {y} feet"
-                            },
-                            axisY: {
-                                suffix: "ft",
-                                gridThickness: 0,
-                            },
-                            axisX: {
-                                suffix: "miles"
-                            },
-                            data: [{
-                                type: "splineArea",
-                                lineThickness: 3,
-                                color: "#EBAF1A",
-                                dataPoints: newGraphData,
-                                markerType: "none",
-                            }]
-                        });
-                        chart.render();
-                    }))
-                })
+                            var chart = new CanvasJS.Chart("chartContainer", {
+                                animationEnabled: true,
+                                toolTip: {
+                                    content: "Distance: {x} miles <br> Elevation: {y} feet"
+                                },
+                                axisY: {
+                                    suffix: "ft",
+                                    gridThickness: 0,
+                                },
+                                axisX: {
+                                    suffix: "miles"
+                                },
+                                data: [{
+                                    type: "splineArea",
+                                    lineThickness: 3,
+                                    color: "#EBAF1A",
+                                    dataPoints: newGraphData,
+                                    markerType: "none",
+                                }]
+                            });
+                            chart.render();
+                        }))
+                    })
+
+                    
+                }, i * 500)
 
             }
         })
