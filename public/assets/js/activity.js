@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let activitySegments = [];
     let elevationGained = 0;
     let elevationLost = 0;
-    let parkingLocation;
+    let parkingLocation = 0;
     let listIdentifier = 0;
     let participantList = [];
 
@@ -373,6 +373,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
         })
     })
 
+    // Make sure there is a parking location before proceeding to first Modal
+    const firstModalButton = document.getElementById('firstModalButton');
+    firstModalButton.addEventListener('click', (e) => {
+        if (parkingLocation === 0) {
+            alert('Please pick a meeting location by right clicking on the map')
+            function handler(e){
+                e.stopPropagation();
+                e.preventDefault();
+            }
+            handler(e)
+
+        }
+    })
+
     // organizing data and saving to db
     const saveActivityButton = document.getElementById('save-activity');
     const activityName = document.getElementById('activity_name');
@@ -382,6 +396,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     user_strava.style.display = 'none';
     if (saveActivityButton) {
         saveActivityButton.addEventListener('click', (e) => {
+            if (parkingLocation === 0) {
+                alert('Please pick a meeting location by right clicking on the map')
+            }
             participantList.push(user_strava.textContent)
             const segmentsStringified = activitySegments.toString();
             e.preventDefault();
