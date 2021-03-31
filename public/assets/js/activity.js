@@ -423,8 +423,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(activityInfo),
-            }).then(() => {
-                window.location.replace("http://www.w3schools.com");
             })
         })
     }
