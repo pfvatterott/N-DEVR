@@ -39,6 +39,9 @@
   <!-- Favicon -->
   <link rel="shortcut icon" href="/assets/img/favicon.png" type="image/x-icon" />
 
+  {{!-- AOS --}}
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
   {{!-- CSS --}}
   <link rel="stylesheet" href="/assets/css/style.css">
 
@@ -82,7 +85,7 @@
           <a href="/about">
             <h5 style='color: #EBAF1A' id="ndevrfont">About Us</h5>
             <p class="white-text">
-              Use N-DEVR to help plan your next outdoor adventure...
+              Use <span style="color: #EBAF1A">N</span>-DEVR to help plan your next outdoor adventure...
             </p>
           </a>
         </div>
@@ -118,6 +121,13 @@
 
   {{!-- CanvasJS --}}
   <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
+  {{!-- AOS JS --}}
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+
+  <script>
+    AOS.init();
+  </script>
 
 
   <script>
