@@ -142,6 +142,11 @@ nav {
     font-family: 'Offside', cursive
   }
 
+  #firstModalButton {
+    background-color: #EB401A;
+    font-family: 'Offside', cursive
+  }
+
   #friendSearch {
     background-color: #EB401A;
     font-family: 'Offside', cursive
