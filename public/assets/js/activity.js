@@ -238,8 +238,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     parkingLocation = popLocation.lat.toString() + "," + popLocation.lng.toString();
                     mymap.closePopup();
                     var carIcon = L.icon({
-                        iconUrl: 'https://cdn.onlinewebfonts.com/svg/img_553938.png',
-                        iconSize: [25, 25]
+                        iconUrl: 'https://cdn2.iconfinder.com/data/icons/map-locations-filled-pixel-perfect/64/pin-map-location-26-512.png',
+                        iconSize: [40, 40]
                     })
                     carMarker = L.marker([popLocation.lat, popLocation.lng], { icon: carIcon })
                     mymap.addLayer(carMarker);
@@ -323,6 +323,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // friend search
     $('#friendSearch').on('click', () => {
+        let searchList = document.getElementById('searchList')
+        $(searchList).empty();
         const firstName = $('#first_name').val();
         const lastName = $('#last_name').val();
         fetch((`/profile/userSearch/${firstName}&${lastName}`), {
@@ -332,9 +334,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             },
         }).then((response) => {
             response.json().then((data) => {
-                console.log(data)
-
-                let searchList = document.getElementById('searchList')
                 for (let q = 0; q < data.length; q++) {
                     let li = document.createElement('li');
                     let img = document.createElement('img');
