@@ -1,24 +1,24 @@
 {
-  "development": {
-    "username": "root",
-    "password": "$Uper123",
-    "database": "strava_app_db",
-    "host": "127.0.0.1",
-    "port": 3306,
-    "dialect": "mysql"
-  },
-  "test": {
-    "username": "p6d47zc8nkz4cf1m",
-    "password": "xgsxjk1nkjbejwew",
-    "database": "cmtf7m8551gk1gjj",
-    "host": "g84t6zfpijzwx08q.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    "dialect": "mysql"
-  },
-  "production": {
-    "username": "p6d47zc8nkz4cf1m",
-    "password": "xgsxjk1nkjbejwew",
-    "database": "cmtf7m8551gk1gjj",
-    "host": "g84t6zfpijzwx08q.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
-    "dialect": "mysql"
+    "development": {
+      "username": "root",
+      "password": "$Uper123",
+      "database": "strava_app_db",
+      "host": "127.0.0.1",
+      "port": 3306,
+      "dialect": "mysql"
+    },
+    "test": {
+      "username": "p6d47zc8nkz4cf1m",
+      "password": "xgsxjk1nkjbejwew",
+      "database": "cmtf7m8551gk1gjj",
+      "host": "g84t6zfpijzwx08q.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+      "dialect": "mysql"
+    },
+    "production": {
+      "username": "p6d47zc8nkz4cf1m",
+      "password": "xgsxjk1nkjbejwew",
+      "database": "cmtf7m8551gk1gjj",
+      "host": "g84t6zfpijzwx08q.cbetxkdyhwsb.us-east-1.rds.amazonaws.com",
+      "dialect": "mysql"
+    }
   }
-}

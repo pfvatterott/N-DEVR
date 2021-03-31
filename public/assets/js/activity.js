@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     let activitySegments = [];
     let elevationGained = 0;
     let elevationLost = 0;
-    let parkingLocation;
+    let parkingLocation = 0;
     let listIdentifier = 0;
     let participantList = [];
 
@@ -238,8 +238,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     parkingLocation = popLocation.lat.toString() + "," + popLocation.lng.toString();
                     mymap.closePopup();
                     var carIcon = L.icon({
-                        iconUrl: 'https://cdn.onlinewebfonts.com/svg/img_553938.png',
-                        iconSize: [25, 25]
+                        iconUrl: 'https://cdn2.iconfinder.com/data/icons/map-locations-filled-pixel-perfect/64/pin-map-location-26-512.png',
+                        iconSize: [40, 40]
                     })
                     carMarker = L.marker([popLocation.lat, popLocation.lng], { icon: carIcon })
                     mymap.addLayer(carMarker);
@@ -323,6 +323,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     // friend search
     $('#friendSearch').on('click', () => {
+        let searchList = document.getElementById('searchList')
+        $(searchList).empty();
         const firstName = $('#first_name').val();
         const lastName = $('#last_name').val();
         fetch((`/profile/userSearch/${firstName}&${lastName}`), {
@@ -332,9 +334,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
             },
         }).then((response) => {
             response.json().then((data) => {
-                console.log(data)
-
-                let searchList = document.getElementById('searchList')
                 for (let q = 0; q < data.length; q++) {
                     let li = document.createElement('li');
                     let img = document.createElement('img');
@@ -373,6 +372,20 @@ document.addEventListener('DOMContentLoaded', (event) => {
         })
     })
 
+    // Make sure there is a parking location before proceeding to first Modal
+    const firstModalButton = document.getElementById('firstModalButton');
+    firstModalButton.addEventListener('click', (e) => {
+        if (parkingLocation === 0) {
+            alert('Please pick a meeting location by right clicking on the map')
+            function handler(e){
+                e.stopPropagation();
+                e.preventDefault();
+            }
+            handler(e)
+
+        }
+    })
+
     // organizing data and saving to db
     const saveActivityButton = document.getElementById('save-activity');
     const activityName = document.getElementById('activity_name');
@@ -382,6 +395,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     user_strava.style.display = 'none';
     if (saveActivityButton) {
         saveActivityButton.addEventListener('click', (e) => {
+            if (parkingLocation === 0) {
+                alert('Please pick a meeting location by right clicking on the map')
+            }
             participantList.push(user_strava.textContent)
             const segmentsStringified = activitySegments.toString();
             e.preventDefault();
@@ -407,8 +423,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(activityInfo),
-            }).then(() => {
-                window.location.replace("http://www.w3schools.com");
             })
         })
     }
