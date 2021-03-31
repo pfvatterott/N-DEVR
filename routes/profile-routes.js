@@ -28,6 +28,17 @@ router.get('/searchParticipants/:userId', (req, res) => {
     })
 })
 
+router.delete('/api/deleteActivity/:id', (req, res) => {
+    const id = req.params.id;
+    console.log(id)
+    Activities.destroy({
+        where: {
+            id: id
+        }
+    })
+
+})
+
 router.get('/', authCheck, (req, res) => {
     Activities.findAll({
         where: {
