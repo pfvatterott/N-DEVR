@@ -22,8 +22,8 @@ passport.deserializeUser((id, done) => {
 
 passport.use(new StravaStrategy({
     // options for strategy
-    clientID: '63679',
-    clientSecret: '43f098d8566eef509c0e027f450d5d3d8025ac1c',
+    clientID: process.env.clientID,
+    clientSecret: process.env.clientSecret,
     callbackURL: "/auth/strava/redirect"
     }, (accessToken, refreshToken, profile, done) => {
         // check if user exists
