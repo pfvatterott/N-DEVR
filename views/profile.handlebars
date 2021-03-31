@@ -39,14 +39,17 @@
     <div class="row">
       <div class='col s12'>
         <h3>Your activities</h3>
-        <div class="collection" id="upcoming-activities">
+        <ul class="collection">
           {{#each activities}}
-          <a href="/profile/viewActivity/{{id}}" class="collection-item">{{activity_name}}
-          </a>
+          <li class="collection-item" data-value={{id}}>
+            <a class="title" href="/profile/viewActivity/{{id}}">{{activity_name}}</a>
+            <a href="#!" id="deleteActivityButton" class="secondary-content btn-floating hover btn-small" data-value={{id}}><i class="far fa-trash-alt"></i></a>
+          </li>
           {{/each}}
-        </div>
       </div>
     </div>
     <a class="waves-effect waves-light btn-small strava-logout-button " href="/auth/logout">Logout</a>
   </div>
 </section>
+
+<script src="/assets/js/profile.js"></script>
