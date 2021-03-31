@@ -4,13 +4,12 @@ nav {
   background-image: linear-gradient(to right, #027f9e, black);
 }
 
-nav {
-  height: 75px;
-  line-height: 75px;
-}
-
 .sidenav {
   font-family: "Offside", cursive;
+}
+
+#exofont {
+  font-family: "Exo 2", sans-serif;
 }
 
 .profile-top-section {
@@ -23,6 +22,7 @@ nav {
 
 .profile-pic {
   height: 200px;
+  margin-top: 50px;
 }
 
 #welcome {
@@ -45,6 +45,9 @@ nav {
   font-family: "Offside", cursive;
 }
 
+ #aboutndevr {
+   font-size: larger;
+ }
 
 /* Video background on index.handlebars */
 video {
@@ -66,119 +69,119 @@ video {
   justify-content: center;
 }
 
+#modal1 {
+  width: 70%;
+  height: 70%;
+}
 
-nav {
-    height: 75px;
-    line-height: 75px;
-  }
-  
-  .sidenav {
-    font-family: 'Offside', cursive;
-  }
-  
-  .hide {
-    display: none;
-  }
+#modal2 {
+  width: 70%;
+  height: 70%;
+} /* increase the height and width as you desire */
 
-  #modal1 {
-    width: 70%;
-    height: 70%;
-  }
-  
-  #modal2 {
-    width: 70%;
-    height: 70%;
-  } /* increase the height and width as you desire */
+#modal3 {
+  width: 70%;
+  height: 70%;
+}
 
-  #modal3 {
-    width: 70%;
-    height: 70%;
-  }
-  
-  .datepicker-modal {
-    transform: scale(0.7);
-  }
-  
-  .timepicker-modal {
-    transform: scale(0.7);
-  }
-  
-  #ndevrfont {
-    font-family: 'Offside', cursive;
-  }
-  
-  video {
-    object-fit: cover;
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-  }
-  
-  .viewport-header {
-    position:relative;
-    height: 40vh;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  #landingpageH1 {
-    font-family: 'Syncopate', sans-serif;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 1.5vw;
-    line-height: 1.2;
-    font-size: 5vw;
-    text-align: center;
-  }
-  
-  
-  #letsgobtn {
-    background-color: #EB401A;
-    font-family: 'Offside', cursive
-  }
+video {
+  object-fit: cover;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
 
-  #firstModalButton {
-    background-color: #EB401A;
-    font-family: 'Offside', cursive
-  }
+.viewport-header {
+  position: relative;
+  height: 50vh;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  #friendSearch {
-    background-color: #EB401A;
-    font-family: 'Offside', cursive
-  }
+#landingpageH1 {
+  font-family: "Syncopate", sans-serif;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 1.5vw;
+  line-height: 1.2;
+  font-size: 5vw;
+  text-align: center;
+}
 
-  #save-activity {
-    background-color: #EB401A;
-    font-family: 'Offside', cursive
-  }
-  
-  .strava-login-button {
-    background-color: #fc4c01;
-    font-family: 'Offside', cursive
-  }
-  
-  
-  body {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
-  }
-  
-  main {
-    flex: 1 0 auto;
-  }
+#letsgobtn {
+  background-color: #eb401a;
+  font-family: "Offside", cursive;
+}
 
-  .centered-right {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translate(-50%, -50%);
-    color: white;
-    font-family: 'Offside', cursive;
-  }
-  
+#friendSearch {
+  background-color: #eb401a;
+  font-family: "Offside", cursive;
+}
+
+#save-activity {
+  background-color: #eb401a;
+  font-family: "Offside", cursive;
+}
+
+.strava-login-button {
+  background-color: #fc4c01;
+  font-family: "Offside", cursive;
+}
+
+.strava-logout-button {
+  background-color: #9E2509;
+  font-family: "Offside", cursive;
+  margin-top: 30px;
+  margin-bottom: 100px;
+  margin-left: 130px;
+}
+
+.new-activity-button {
+  background-color: #fc4c01;
+  font-family: "Offside", cursive;
+  margin-top: 30px;
+  margin-bottom: 100px;
+  left: 50px;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+.centered-right {
+  position: absolute;
+  top: 40%;
+  right: 150px;
+  /* transform: translate(-50%, -50%); */
+  color: white;
+  font-family: "Offside", cursive;
+}
+
+.centered-left {
+  position: absolute;
+  top: 40%;
+  left: 150px;
+  /* transform: translate(-50%, -50%); */
+  color: white;
+  font-family: "Offside", cursive;
+}
+
+.activitysection{
+background-color: #F0F0F5;
+}
+
+.coolblue{
+color: #027F9E
+}
+
