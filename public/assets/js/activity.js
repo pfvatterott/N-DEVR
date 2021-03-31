@@ -377,7 +377,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const firstModalButton = document.getElementById('firstModalButton');
     firstModalButton.addEventListener('click', (e) => {
         if (parkingLocation === 0) {
-            alert('Please pick a meeting location by right clicking on the map')
+            M.toast({html: 'Please pick a meeting location by right clicking on the map', classes: 'rounded'});
             function handler(e){
                 e.stopPropagation();
                 e.preventDefault();
