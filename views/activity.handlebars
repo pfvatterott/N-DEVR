@@ -1,14 +1,29 @@
-<section class="section">
-  <div class="row container">
-    <div class="col s12 m6">
-      <h2>Let's Plan!</h2>
+{{!-- Title and Image --}}
+<div class="parallax-container">
+  <div class="parallax">
+    <img src="/assets/img/biking.jpg" alt="trail runners" class="responsive-img" />
+    <div class="centered-left">
+      <h1 id="ndervfont">Let's plan an <span id="ndevrfont" style="color: #EBAF1A">N</span>-DEVR!</h1>
     </div>
+  </div>
+</div>
+
+{{!-- How to create activity --}}
+<section class="section" id="exofont">
+  <div class="row container">
+    <i class="small material-icons left" style="color: #EBAF1A">map</i>
+    <p class="flow-text"> Have a look around at the 1000's of segments on the map. </p>
+    <i class=" material-icons left" style="color: #EBAF1A">format_list_bulleted</i>
+    <p class="flow-text">Select segments you'd like to add to your activity by clicking on them.</p>
+    <i class=" material-icons left" style="color: #EBAF1A">place</i>
+    <p class="flow-text">Set a meeting place to kick off your adventure. Right click on the map where you'd like to
+      start your activity</p>
   </div>
   <div class="row container">
     <div class="col s12 m6">
       <table class="highlight">
         <thead>
-          <tr>
+          <tr class="coolblue">
             <th>Segment Name</th>
             <th>Distance</th>
             <th>Elev. Change</th>
@@ -19,7 +34,7 @@
       </table>
     </div>
     <div class="col s12 m6">
-      <div id="mapid" style="height: 500px"></div>
+      <div class="z-depth-2" id="mapid" style="height: 500px"></div>
     </div>
   </div>
   <div class="row container">
@@ -67,18 +82,19 @@
 </section>
 <div class="row container">
   <div class="col s12">
+    
     <!-- Modal Trigger -->
-    <a class="waves-effect waves-light btn-large modal-trigger right" href="#modal1" id="firstModalButton">Next</a>
+    <a class="waves-effect waves-light btn-large modal-trigger right" style="background-color: #eb401a;" href="#modal1" id="firstModalButton">Next</a>
   </div>
 </div>
 
 <!-- Modal Structure -->
 <div id="modal1" class="modal">
-  <div class="modal-content">
+  <div class="modal-content" id="exofont">
     <div class="row">
       <div class='col s12 m2'></div>
       <div class='col s12 m8'>
-        <h3>Name your Endeavor!</h3>
+        <h3>Name your <span style="color: #EBAF1A">N</span>-DEVR!</h3>
       </div>
       <div class='col s12 m2'></div>
     </div>
@@ -103,13 +119,13 @@
       <div class='col s12 m2'></div>
     </div>
     <div class="modal-footer">
-      <a class="waves-effect waves-light btn-large modal-trigger" href="#modal2" id="letsgobtn">Next</a>
+      <a class="waves-effect waves-light btn-large modal-trigger" style="background-color: #eb401a;" href="#modal2" id="letsgobtn">Next</a>
     </div>
   </div>
 </div>
 
 <div id="modal2" class="modal">
-  <div class="modal-content">
+  <div class="modal-content" id="exofont">
     <div class="row">
       <div class='col s12 m2'></div>
       <div class='col s12 m8'>
@@ -180,7 +196,8 @@
       <div class='col s12 m2'></div>
     </div>
     <div class="modal-footer">
-      <a class="waves-effect waves-light btn save-activity" name="save-activity" id="save-activity" onclick="document.location.href = '/profile'">Save Activity</a>
+      <a class="waves-effect waves-light btn save-activity" name="save-activity" id="save-activity"
+        onclick="document.location.href = '/profile'">Save Activity</a>
     </div>
   </div>
 </div>
