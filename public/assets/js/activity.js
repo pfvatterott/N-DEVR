@@ -1,7 +1,3 @@
-// const { Model } = require("sequelize/types");
-
-// const { response } = require("express");
-
 document.addEventListener('DOMContentLoaded', (event) => {
     const activityList = document.getElementById("activityList");
     const totalDistanceEl = document.getElementById("totalDistance");
