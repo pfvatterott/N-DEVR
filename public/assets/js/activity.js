@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
                                     metaDataId: data.segments[i].id
                                 },
                             ).on('mouseover', (e) => {
+                                e.target.bringToFront();
                                 initialColor = e.target.options.color;
                                 e.target.setStyle({
                                     color: 'yellow'
