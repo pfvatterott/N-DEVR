@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
             var popLocation = e.latlng;
             var popup = L.popup()
                 .setLatLng(popLocation)
-                .setContent('<a class="waves-effect waves-light btn meeting-point" name="meeting-point" id="meeting-point">Set Meeting Point</a>')
+                .setContent('<a class="waves-effect waves-light btn meeting-point" style="color: white; background-color: #eb401a;" name="meeting-point" id="meeting-point">Set Meeting Point</a>')
                 .openOn(mymap);
             const saveButton = document.getElementById('meeting-point')
             if (saveButton) {
