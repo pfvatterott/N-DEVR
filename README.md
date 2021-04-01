@@ -35,6 +35,9 @@ Once the user logs into N-DEVR they will be directly to their user profile page.
 - [Material Icon CDN](https://material.io/resources/icons/?style=baseline)
 - [AOS](https://michalsnik.github.io/aos/)
 - [Polyline-encoded](https://github.com/jieter)
+- [Heroku](https://www.heroku.com)
+- [Mapbox](https://www.mapbox.com/)
+
 
 
 ![tech stack](./public/assets/img/html-css-js.png)
