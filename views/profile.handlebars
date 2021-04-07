@@ -2,7 +2,7 @@
 <div class="parallax-container">
   <div class="parallax">
     <img src="/assets/img/trailintrees.jpg" alt="trail in woods" class="responsive-img" />
-    <div class="centered-left">
+    <div class="centered-right">
       <h1><span style="color: #EBAF1A">N</span>-DEVR Profile</h1>
     </div>
   </div>
@@ -13,8 +13,8 @@
     <div class="row">
 
       {{!-- Profile Name & Image --}}
-      <div class="col s12 m6 center" id="exofont">
-        <img class='circle profile-pic z-depth-3' src={{user.user_photo}}>
+      <div class="col s12 m6 center" id="exofont" data-aos="zoom-in">
+        <img class='circle profile-pic z-depth-3'  src={{user.user_photo}}>
         <h3>{{user.user_first}} {{user.user_last}}</h3>
         {{#if user.user_city}}
         <p><i class="fas fa-map-marker-alt"></i> {{user.user_city}}, {{user.user_state}}</p>

@@ -16,9 +16,9 @@ nav {
   padding-top: 0;
 }
 
-.parallax-profile {
+/* .parallax-profile {
   height: 600px;
-}
+} */
 
 .profile-pic {
   height: 200px;
@@ -169,5 +169,13 @@ main {
   position: relative;
   background-color: #fc4c01;
   top: -5px;
-  
+}
+
+@media only screen and (max-width: 600px) {
+  .parallax-container {
+    height: 200px;
+  }
+  h1 {
+    font-size: 30px !important;
+  }
 }
