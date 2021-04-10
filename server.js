@@ -9,8 +9,10 @@ const passport = require('passport')
 const dotenv = require('dotenv');
 dotenv.config()
 const db = require('./models')
+var compression = require('compression')
 
 app.use(express.static('public'));
+app.use(compression())
 
 // Set Handlebars.
 const exphbs = require('express-handlebars');
